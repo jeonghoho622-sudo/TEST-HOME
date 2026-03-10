@@ -1,0 +1,1304 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>행복한 복어가족 소개 홈페이지</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --bg1: #dff4ff;
+      --bg2: #fdf6ff;
+      --card: rgba(255, 255, 255, 0.82);
+      --line: rgba(255, 255, 255, 0.95);
+      --text: #3b2f4a;
+      --muted: #6c6a7a;
+      --accent: #7cc8ff;
+      --accent2: #ffb3c7;
+      --accent3: #ffd36e;
+      --danger: #ff7d7d;
+      --ok: #6ccf8f;
+      --shadow: 0 18px 40px rgba(84, 112, 151, 0.18);
+      --shadow-soft: 0 10px 25px rgba(84, 112, 151, 0.12);
+      --radius: 24px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.9), transparent 35%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(1120px, calc(100% - 24px));
+      margin: 0 auto;
+      padding: 20px 0 60px;
+    }
+
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: 30px;
+      padding: 26px;
+      margin-top: 12px;
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      margin: 12px 0 10px;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--line);
+      font-size: 13px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+      border-radius: var(--radius);
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .muted {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .btn, button {
+      border: none;
+      cursor: pointer;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn:hover, button:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #9fdcff);
+      color: #17354d;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-pink {
+      background: linear-gradient(135deg, var(--accent2), #ffd0dd);
+      color: #5a2b39;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-yellow {
+      background: linear-gradient(135deg, var(--accent3), #ffe49a);
+      color: #5f4c12;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-outline {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ff9e9e, #ffc1c1);
+      color: #642525;
+    }
+
+    .btn-ok {
+      background: linear-gradient(135deg, #9fe2b6, #cbf5d8);
+      color: #1e5b36;
+    }
+
+    .stack { display: grid; gap: 14px; }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--muted);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #e7edf4;
+      background: rgba(255,255,255,0.96);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font: inherit;
+      outline: none;
+    }
+
+    textarea { resize: vertical; min-height: 110px; }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .info-box {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .user-box {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid var(--line);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid var(--line);
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .item {
+      background: rgba(255,255,255,0.82);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .item-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .item-title {
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .item-meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .item-body {
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .upcoming-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .event-card {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--line);
+    }
+
+    .calendar-box {
+      margin-top: 12px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 16px;
+    }
+
+    .calendar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .calendar-nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .weekday-row, .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .weekday {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      padding: 6px 0;
+    }
+
+    .day {
+      min-height: 110px;
+      border-radius: 18px;
+      padding: 10px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid #edf2f7;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .day:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .day.other {
+      opacity: 0.42;
+    }
+
+    .day.today {
+      outline: 2px solid var(--accent);
+    }
+
+    .day-num {
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .day-events {
+      display: grid;
+      gap: 6px;
+    }
+
+    .mini-chip {
+      font-size: 11px;
+      padding: 5px 7px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #eaf8ff, #fff1f6);
+      color: #37526d;
+      border: 1px solid #eef5ff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .status {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      min-height: 22px;
+    }
+
+    .status.ok { color: #267f49; }
+    .status.error { color: #c04545; }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 26px;
+      font-size: 14px;
+    }
+
+    .note {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 920px) {
+      .grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .wrap { width: min(100%, calc(100% - 16px)); }
+      .hero, .card { padding: 16px; border-radius: 22px; }
+      .day { min-height: 92px; padding: 8px; }
+      .calendar-grid { gap: 6px; }
+      .weekday-row { gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="brand">Happy Puffer Family</div>
+          <h1>행복한 복어가족 을 소개합니다</h1>
+          <p>
+            동글동글 귀엽고 포근한 분위기의 복어가족 홈페이지예요.
+            이제 이 홈페이지를 단순 소개 페이지가 아니라,
+            <strong>로그인하고 저장되는 진짜 웹서비스 구조</strong>로 바꿔 봅시다.
+          </p>
+        </div>
+        <div class="pill">Firebase 연결형 완성 구조</div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="#auth" class="btn btn-primary">로그인 / 회원가입</a>
+        <a href="#greetings" class="btn btn-pink">인사 남기기</a>
+        <a href="#news" class="btn btn-yellow">복어가족 소식</a>
+        <a href="#events" class="btn btn-outline">가족행사</a>
+      </div>
+
+      <div class="chips">
+        <div class="chip">따뜻함 · 웃음 · 포근함</div>
+        <div class="chip">로그인 저장형 구조</div>
+        <div class="chip">GitHub + Netlify + Firebase</div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <main class="stack">
+        <section class="card" id="auth">
+          <div class="section-title">
+            <div>
+              <h2>로그인 / 회원가입</h2>
+              <p>이메일과 비밀번호로 회원가입하고 로그인할 수 있어요.</p>
+            </div>
+          </div>
+
+          <div class="user-box">
+            <div>
+              <div class="item-title" id="authStateText">현재 상태: 로그아웃</div>
+              <div class="item-meta" id="authUserText">아직 로그인하지 않았어요.</div>
+            </div>
+            <button class="btn btn-danger" id="logoutBtn" type="button">로그아웃</button>
+          </div>
+
+          <div class="form-grid" style="margin-top: 14px;">
+            <div>
+              <label for="authEmail">이메일</label>
+              <input id="authEmail" type="email" placeholder="example@email.com" />
+            </div>
+            <div>
+              <label for="authPassword">비밀번호</label>
+              <input id="authPassword" type="password" placeholder="비밀번호 입력" />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="signupBtn" type="button">회원가입</button>
+            <button class="btn btn-outline" id="loginBtn" type="button">로그인</button>
+          </div>
+
+          <div class="status" id="authStatus"></div>
+
+          <div class="note">
+            처음에는 Firebase 콘솔에서 <strong>Email/Password 로그인</strong>을 켜야 해요.
+          </div>
+        </section>
+
+        <section class="card" id="greetings">
+          <div class="section-title">
+            <div>
+              <h2>함께 인사해요</h2>
+              <p>인사말을 저장하면 최근 3개와 전체 목록에 바로 반영돼요.</p>
+            </div>
+          </div>
+
+          <div class="info-box">
+            행복한 복어가족에게 인사를 남겨 주세요.
+            로그인한 사람만 저장할 수 있어요.
+          </div>
+
+          <div style="margin-top: 14px;">
+            <label for="greetingInput">인사말</label>
+            <textarea id="greetingInput" placeholder="예: 안녕하세요. 오늘도 복어가족에게 행복이 가득하길 바라요!"></textarea>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-pink" id="saveGreetingBtn" type="button">인사 저장</button>
+            <button class="btn btn-outline" id="loadAllGreetingsBtn" type="button">전체 인사 새로고침</button>
+          </div>
+
+          <div class="status" id="greetingStatus"></div>
+
+          <div style="margin-top: 18px;">
+            <h3>최근 저장된 인사말 3개</h3>
+            <div class="list" id="latestGreetings"></div>
+          </div>
+
+          <div style="margin-top: 18px;">
+            <h3>전체 인사말</h3>
+            <div class="list" id="allGreetings"></div>
+          </div>
+        </section>
+
+        <section class="card" id="news">
+          <div class="section-title">
+            <div>
+              <h2>복어가족 소식</h2>
+              <p>새 소식을 저장하고, 등록된 소식을 클릭해서 수정할 수 있어요.</p>
+            </div>
+          </div>
+
+          <input type="hidden" id="newsDocId" />
+
+          <div class="form-grid">
+            <div class="full">
+              <label for="newsTitle">소식 제목</label>
+              <input id="newsTitle" type="text" placeholder="예: 오늘의 복어가족 산책 이야기" />
+            </div>
+            <div class="full">
+              <label for="newsBody">소식 내용</label>
+              <textarea id="newsBody" placeholder="예: 오늘은 바람이 잔잔해서 산책하기 좋았어요."></textarea>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-yellow" id="saveNewsBtn" type="button">소식 저장</button>
+            <button class="btn btn-outline" id="resetNewsBtn" type="button">수정 취소</button>
+          </div>
+
+          <div class="status" id="newsStatus"></div>
+
+          <div style="margin-top: 18px;">
+            <h3>등록된 소식</h3>
+            <div class="list" id="newsList"></div>
+          </div>
+        </section>
+
+        <section class="card" id="events">
+          <div class="section-title">
+            <div>
+              <h2>가족행사 입력</h2>
+              <p>날짜와 시간, 제목, 내용을 저장하고 수정할 수 있어요.</p>
+            </div>
+          </div>
+
+          <input type="hidden" id="eventDocId" />
+
+          <div class="form-grid">
+            <div>
+              <label for="eventDate">날짜</label>
+              <input id="eventDate" type="date" />
+            </div>
+            <div>
+              <label for="eventTime">시간</label>
+              <input id="eventTime" type="time" />
+            </div>
+            <div class="full">
+              <label for="eventTitle">행사 제목</label>
+              <input id="eventTitle" type="text" placeholder="예: 가족 외식" />
+            </div>
+            <div class="full">
+              <label for="eventBody">행사 내용</label>
+              <textarea id="eventBody" placeholder="예: 저녁 6시에 다 같이 외식하러 가요."></textarea>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="saveEventBtn" type="button">가족행사 저장</button>
+            <button class="btn btn-outline" id="resetEventBtn" type="button">수정 취소</button>
+          </div>
+
+          <div class="status" id="eventStatus"></div>
+
+          <div class="calendar-box">
+            <div class="calendar-head">
+              <div>
+                <h3 id="calendarTitle">가족행사 달력 보기</h3>
+                <div class="item-meta">날짜 칸을 한 번 클릭하면 바로 입력창에 날짜가 들어가요.</div>
+              </div>
+              <div class="calendar-nav">
+                <button class="btn btn-outline" id="prevMonthBtn" type="button">이전 달</button>
+                <button class="btn btn-outline" id="todayMonthBtn" type="button">이번 달</button>
+                <button class="btn btn-outline" id="nextMonthBtn" type="button">다음 달</button>
+              </div>
+            </div>
+
+            <div class="weekday-row">
+              <div class="weekday">일</div>
+              <div class="weekday">월</div>
+              <div class="weekday">화</div>
+              <div class="weekday">수</div>
+              <div class="weekday">목</div>
+              <div class="weekday">금</div>
+              <div class="weekday">토</div>
+            </div>
+
+            <div class="calendar-grid" id="calendarGrid"></div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="stack">
+        <section class="card">
+          <div class="section-title">
+            <div>
+              <h2>현재 구조 설명</h2>
+              <p>이 홈페이지는 저장되는 구조로 바뀐 버전이에요.</p>
+            </div>
+          </div>
+          <div class="info-box">
+            <strong>로그인</strong>은 Firebase Authentication,
+            <strong>인사말 / 소식 / 행사 저장</strong>은 Firestore가 맡아요.
+          </div>
+          <div class="note">
+            Netlify는 화면을 배포하고, Firebase는 데이터를 보관하는 역할을 해요.
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-title">
+            <div>
+              <h2>가까운 일정 3개</h2>
+              <p>현재일 기준으로 가장 가까운 일정이에요.</p>
+            </div>
+          </div>
+          <div class="upcoming-grid" id="upcomingEvents"></div>
+        </section>
+
+        <section class="card">
+          <div class="section-title">
+            <div>
+              <h2>사용 팁</h2>
+              <p>처음엔 여기까지만 되면 성공이에요.</p>
+            </div>
+          </div>
+          <div class="info-box">
+            1. 회원가입<br />
+            2. 로그인<br />
+            3. 인사 저장<br />
+            4. 소식 저장<br />
+            5. 행사 저장
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <div class="footer">
+      © 2026 행복한 복어가족 홈페이지 · Love, bubbles and smiles
+    </div>
+  </div>
+
+  <script type="module">
+    /*
+      ==========================================================
+      1) 아래 firebaseConfig를 네 Firebase 프로젝트 값으로 바꿔 넣어.
+      2) Firebase 콘솔에서 Authentication > Email/Password 켜기
+      3) Firestore Database 만들기
+      ==========================================================
+    */
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      updateDoc,
+      deleteDoc,
+      doc,
+      query,
+      orderBy,
+      onSnapshot,
+      getDocs,
+      limit
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ---------------------------
+    // DOM
+    // ---------------------------
+    const authEmail = document.getElementById("authEmail");
+    const authPassword = document.getElementById("authPassword");
+    const signupBtn = document.getElementById("signupBtn");
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const authStateText = document.getElementById("authStateText");
+    const authUserText = document.getElementById("authUserText");
+    const authStatus = document.getElementById("authStatus");
+
+    const greetingInput = document.getElementById("greetingInput");
+    const saveGreetingBtn = document.getElementById("saveGreetingBtn");
+    const loadAllGreetingsBtn = document.getElementById("loadAllGreetingsBtn");
+    const latestGreetings = document.getElementById("latestGreetings");
+    const allGreetings = document.getElementById("allGreetings");
+    const greetingStatus = document.getElementById("greetingStatus");
+
+    const newsDocId = document.getElementById("newsDocId");
+    const newsTitle = document.getElementById("newsTitle");
+    const newsBody = document.getElementById("newsBody");
+    const saveNewsBtn = document.getElementById("saveNewsBtn");
+    const resetNewsBtn = document.getElementById("resetNewsBtn");
+    const newsList = document.getElementById("newsList");
+    const newsStatus = document.getElementById("newsStatus");
+
+    const eventDocId = document.getElementById("eventDocId");
+    const eventDate = document.getElementById("eventDate");
+    const eventTime = document.getElementById("eventTime");
+    const eventTitle = document.getElementById("eventTitle");
+    const eventBody = document.getElementById("eventBody");
+    const saveEventBtn = document.getElementById("saveEventBtn");
+    const resetEventBtn = document.getElementById("resetEventBtn");
+    const eventStatus = document.getElementById("eventStatus");
+    const upcomingEvents = document.getElementById("upcomingEvents");
+
+    const calendarTitle = document.getElementById("calendarTitle");
+    const calendarGrid = document.getElementById("calendarGrid");
+    const prevMonthBtn = document.getElementById("prevMonthBtn");
+    const todayMonthBtn = document.getElementById("todayMonthBtn");
+    const nextMonthBtn = document.getElementById("nextMonthBtn");
+
+    let currentUser = null;
+    let allEventsCache = [];
+    let calendarDate = new Date();
+
+    // ---------------------------
+    // Helpers
+    // ---------------------------
+    function setStatus(el, msg = "", type = "") {
+      el.textContent = msg;
+      el.className = "status";
+      if (type) el.classList.add(type);
+    }
+
+    function requireLogin() {
+      if (!currentUser) {
+        alert("먼저 로그인해 주세요.");
+        return false;
+      }
+      return true;
+    }
+
+    function nowMs() {
+      return Date.now();
+    }
+
+    function formatDateTime(dateStr, timeStr = "") {
+      if (!dateStr) return "";
+      return timeStr ? `${dateStr} ${timeStr}` : dateStr;
+    }
+
+    function escapeHtml(str = "") {
+      return str
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function resetNewsForm() {
+      newsDocId.value = "";
+      newsTitle.value = "";
+      newsBody.value = "";
+      setStatus(newsStatus, "새 소식 입력 모드예요.", "ok");
+    }
+
+    function resetEventForm() {
+      eventDocId.value = "";
+      eventDate.value = "";
+      eventTime.value = "";
+      eventTitle.value = "";
+      eventBody.value = "";
+      setStatus(eventStatus, "새 행사 입력 모드예요.", "ok");
+    }
+
+    function getStartMs(dateStr, timeStr) {
+      if (!dateStr) return null;
+      const t = timeStr && timeStr.trim() ? timeStr : "00:00";
+      return new Date(`${dateStr}T${t}:00`).getTime();
+    }
+
+    function startOfMonth(d) {
+      return new Date(d.getFullYear(), d.getMonth(), 1);
+    }
+
+    function endOfMonth(d) {
+      return new Date(d.getFullYear(), d.getMonth() + 1, 0);
+    }
+
+    function ymd(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function monthLabel(d) {
+      return `${d.getFullYear()}년 ${d.getMonth() + 1}월`;
+    }
+
+    function eventMapByDate(events) {
+      const map = {};
+      for (const ev of events) {
+        if (!map[ev.date]) map[ev.date] = [];
+        map[ev.date].push(ev);
+      }
+      return map;
+    }
+
+    // ---------------------------
+    // Auth
+    // ---------------------------
+    signupBtn.addEventListener("click", async () => {
+      const email = authEmail.value.trim();
+      const password = authPassword.value.trim();
+
+      if (!email || !password) {
+        setStatus(authStatus, "이메일과 비밀번호를 입력해 주세요.", "error");
+        return;
+      }
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        setStatus(authStatus, "회원가입이 완료되었어요.", "ok");
+      } catch (error) {
+        setStatus(authStatus, `회원가입 실패: ${error.message}`, "error");
+      }
+    });
+
+    loginBtn.addEventListener("click", async () => {
+      const email = authEmail.value.trim();
+      const password = authPassword.value.trim();
+
+      if (!email || !password) {
+        setStatus(authStatus, "이메일과 비밀번호를 입력해 주세요.", "error");
+        return;
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        setStatus(authStatus, "로그인 성공!", "ok");
+      } catch (error) {
+        setStatus(authStatus, `로그인 실패: ${error.message}`, "error");
+      }
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        setStatus(authStatus, "로그아웃했어요.", "ok");
+      } catch (error) {
+        setStatus(authStatus, `로그아웃 실패: ${error.message}`, "error");
+      }
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      if (user) {
+        authStateText.textContent = "현재 상태: 로그인됨";
+        authUserText.textContent = `로그인 사용자: ${user.email}`;
+      } else {
+        authStateText.textContent = "현재 상태: 로그아웃";
+        authUserText.textContent = "아직 로그인하지 않았어요.";
+      }
+    });
+
+    // ---------------------------
+    // Greetings
+    // ---------------------------
+    saveGreetingBtn.addEventListener("click", async () => {
+      if (!requireLogin()) return;
+
+      const text = greetingInput.value.trim();
+      if (!text) {
+        setStatus(greetingStatus, "인사말을 입력해 주세요.", "error");
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "greetings"), {
+          text,
+          userEmail: currentUser.email,
+          uid: currentUser.uid,
+          createdAtMs: nowMs()
+        });
+
+        greetingInput.value = "";
+        setStatus(greetingStatus, "인사말이 저장되었어요.", "ok");
+      } catch (error) {
+        setStatus(greetingStatus, `저장 실패: ${error.message}`, "error");
+      }
+    });
+
+    async function loadAllGreetingsOnce() {
+      try {
+        const q = query(collection(db, "greetings"), orderBy("createdAtMs", "desc"));
+        const snap = await getDocs(q);
+        renderGreetings(snap, allGreetings, false);
+        setStatus(greetingStatus, "전체 인사 목록을 새로 불러왔어요.", "ok");
+      } catch (error) {
+        setStatus(greetingStatus, `불러오기 실패: ${error.message}`, "error");
+      }
+    }
+
+    loadAllGreetingsBtn.addEventListener("click", loadAllGreetingsOnce);
+
+    function renderGreetings(snapshot, target, latestOnly = false) {
+      target.innerHTML = "";
+      if (snapshot.empty) {
+        target.innerHTML = `<div class="item"><div class="item-body">아직 저장된 인사말이 없어요.</div></div>`;
+        return;
+      }
+
+      let count = 0;
+      snapshot.forEach((docSnap) => {
+        if (latestOnly && count >= 3) return;
+        const data = docSnap.data();
+        count++;
+
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <div class="item-top">
+            <div class="item-title">${escapeHtml(data.userEmail || "알 수 없는 사용자")}</div>
+            <div class="item-meta">${new Date(data.createdAtMs).toLocaleString("ko-KR")}</div>
+          </div>
+          <div class="item-body">${escapeHtml(data.text || "")}</div>
+        `;
+        target.appendChild(div);
+      });
+    }
+
+    const greetingsQuery = query(collection(db, "greetings"), orderBy("createdAtMs", "desc"));
+    onSnapshot(greetingsQuery, (snapshot) => {
+      renderGreetings(snapshot, latestGreetings, true);
+      renderGreetings(snapshot, allGreetings, false);
+    });
+
+    // ---------------------------
+    // News
+    // ---------------------------
+    saveNewsBtn.addEventListener("click", async () => {
+      if (!requireLogin()) return;
+
+      const title = newsTitle.value.trim();
+      const body = newsBody.value.trim();
+
+      if (!title || !body) {
+        setStatus(newsStatus, "제목과 내용을 모두 입력해 주세요.", "error");
+        return;
+      }
+
+      try {
+        if (newsDocId.value) {
+          await updateDoc(doc(db, "news", newsDocId.value), {
+            title,
+            body,
+            updatedAtMs: nowMs()
+          });
+          setStatus(newsStatus, "소식이 수정되었어요.", "ok");
+        } else {
+          await addDoc(collection(db, "news"), {
+            title,
+            body,
+            uid: currentUser.uid,
+            userEmail: currentUser.email,
+            createdAtMs: nowMs(),
+            updatedAtMs: nowMs()
+          });
+          setStatus(newsStatus, "새 소식이 저장되었어요.", "ok");
+        }
+        resetNewsForm();
+      } catch (error) {
+        setStatus(newsStatus, `저장 실패: ${error.message}`, "error");
+      }
+    });
+
+    resetNewsBtn.addEventListener("click", resetNewsForm);
+
+    const newsQuery = query(collection(db, "news"), orderBy("updatedAtMs", "desc"));
+    onSnapshot(newsQuery, (snapshot) => {
+      newsList.innerHTML = "";
+      if (snapshot.empty) {
+        newsList.innerHTML = `<div class="item"><div class="item-body">아직 등록된 소식이 없어요.</div></div>`;
+        return;
+      }
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const id = docSnap.id;
+
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <div class="item-top">
+            <div class="item-title">${escapeHtml(data.title || "")}</div>
+            <div class="item-meta">${new Date(data.updatedAtMs).toLocaleString("ko-KR")}</div>
+          </div>
+          <div class="item-body">${escapeHtml(data.body || "")}</div>
+          <div class="item-meta" style="margin-top:8px;">작성자: ${escapeHtml(data.userEmail || "")}</div>
+          <div class="item-actions">
+            <button class="btn btn-outline edit-news-btn" data-id="${id}">수정</button>
+            <button class="btn btn-danger delete-news-btn" data-id="${id}">삭제</button>
+          </div>
+        `;
+        newsList.appendChild(div);
+      });
+
+      document.querySelectorAll(".edit-news-btn").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const id = e.currentTarget.dataset.id;
+          const docSnap = snapshot.docs.find((d) => d.id === id);
+          if (!docSnap) return;
+
+          const data = docSnap.data();
+          newsDocId.value = id;
+          newsTitle.value = data.title || "";
+          newsBody.value = data.body || "";
+          setStatus(newsStatus, "수정 모드로 불러왔어요.", "ok");
+          newsTitle.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+      });
+
+      document.querySelectorAll(".delete-news-btn").forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+          if (!requireLogin()) return;
+          const id = e.currentTarget.dataset.id;
+          if (!confirm("이 소식을 삭제할까요?")) return;
+
+          try {
+            await deleteDoc(doc(db, "news", id));
+            setStatus(newsStatus, "소식이 삭제되었어요.", "ok");
+          } catch (error) {
+            setStatus(newsStatus, `삭제 실패: ${error.message}`, "error");
+          }
+        });
+      });
+    });
+
+    // ---------------------------
+    // Events
+    // ---------------------------
+    saveEventBtn.addEventListener("click", async () => {
+      if (!requireLogin()) return;
+
+      const date = eventDate.value;
+      const time = eventTime.value;
+      const title = eventTitle.value.trim();
+      const body = eventBody.value.trim();
+
+      if (!date || !title || !body) {
+        setStatus(eventStatus, "날짜, 제목, 내용을 입력해 주세요.", "error");
+        return;
+      }
+
+      const startMs = getStartMs(date, time);
+
+      try {
+        if (eventDocId.value) {
+          await updateDoc(doc(db, "events", eventDocId.value), {
+            date,
+            time,
+            title,
+            body,
+            startMs,
+            updatedAtMs: nowMs()
+          });
+          setStatus(eventStatus, "행사가 수정되었어요.", "ok");
+        } else {
+          await addDoc(collection(db, "events"), {
+            date,
+            time,
+            title,
+            body,
+            startMs,
+            uid: currentUser.uid,
+            userEmail: currentUser.email,
+            createdAtMs: nowMs(),
+            updatedAtMs: nowMs()
+          });
+          setStatus(eventStatus, "행사가 저장되었어요.", "ok");
+        }
+
+        resetEventForm();
+      } catch (error) {
+        setStatus(eventStatus, `저장 실패: ${error.message}`, "error");
+      }
+    });
+
+    resetEventBtn.addEventListener("click", resetEventForm);
+
+    function renderUpcomingEvents(events) {
+      upcomingEvents.innerHTML = "";
+
+      const now = Date.now();
+      const upcoming = events
+        .filter((ev) => ev.startMs >= now - 24 * 60 * 60 * 1000)
+        .sort((a, b) => a.startMs - b.startMs)
+        .slice(0, 3);
+
+      if (!upcoming.length) {
+        upcomingEvents.innerHTML = `<div class="event-card">가까운 일정이 아직 없어요.</div>`;
+        return;
+      }
+
+      upcoming.forEach((ev) => {
+        const div = document.createElement("div");
+        div.className = "event-card";
+        div.innerHTML = `
+          <div class="item-title">${escapeHtml(ev.title)}</div>
+          <div class="item-meta" style="margin-top:6px;">${formatDateTime(ev.date, ev.time)}</div>
+          <div class="item-body" style="margin-top:8px;">${escapeHtml(ev.body)}</div>
+        `;
+        upcomingEvents.appendChild(div);
+      });
+    }
+
+    function fillEventForm(ev) {
+      eventDocId.value = ev.id;
+      eventDate.value = ev.date || "";
+      eventTime.value = ev.time || "";
+      eventTitle.value = ev.title || "";
+      eventBody.value = ev.body || "";
+      setStatus(eventStatus, "기존 행사 수정 모드예요.", "ok");
+      eventTitle.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    const eventsQuery = query(collection(db, "events"), orderBy("startMs", "asc"));
+    onSnapshot(eventsQuery, (snapshot) => {
+      allEventsCache = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data()
+      }));
+
+      renderUpcomingEvents(allEventsCache);
+      renderCalendar();
+    });
+
+    // ---------------------------
+    // Calendar
+    // ---------------------------
+    function renderCalendar() {
+      calendarTitle.textContent = `${monthLabel(calendarDate)} 가족행사 달력 보기`;
+      calendarGrid.innerHTML = "";
+
+      const firstDay = startOfMonth(calendarDate);
+      const lastDay = endOfMonth(calendarDate);
+      const startWeekday = firstDay.getDay();
+      const daysInMonth = lastDay.getDate();
+
+      const prevMonthLastDay = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 0).getDate();
+      const map = eventMapByDate(allEventsCache);
+
+      const cells = [];
+
+      for (let i = 0; i < startWeekday; i++) {
+        const dayNum = prevMonthLastDay - startWeekday + i + 1;
+        const d = new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1, dayNum);
+        cells.push({ dateObj: d, other: true });
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const d = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), day);
+        cells.push({ dateObj: d, other: false });
+      }
+
+      while (cells.length % 7 !== 0) {
+        const nextDay = cells.length - (startWeekday + daysInMonth) + 1;
+        const d = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, nextDay);
+        cells.push({ dateObj: d, other: true });
+      }
+
+      const todayStr = ymd(new Date());
+
+      cells.forEach((cell) => {
+        const dateStr = ymd(cell.dateObj);
+        const events = (map[dateStr] || []).slice(0, 3);
+
+        const dayEl = document.createElement("div");
+        dayEl.className = "day";
+        if (cell.other) dayEl.classList.add("other");
+        if (dateStr === todayStr) dayEl.classList.add("today");
+
+        dayEl.innerHTML = `
+          <div class="day-num">${cell.dateObj.getDate()}</div>
+          <div class="day-events">
+            ${events.map(ev => `
+              <div class="mini-chip" data-event-id="${ev.id}">
+                ${escapeHtml(ev.time ? ev.time + " " : "")}${escapeHtml(ev.title)}
+              </div>
+            `).join("")}
+          </div>
+        `;
+
+        dayEl.addEventListener("click", () => {
+          eventDate.value = dateStr;
+          eventTime.focus();
+          setStatus(eventStatus, `${dateStr} 날짜가 입력창에 들어갔어요.`, "ok");
+        });
+
+        calendarGrid.appendChild(dayEl);
+
+        dayEl.querySelectorAll(".mini-chip").forEach((chip) => {
+          chip.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const id = e.currentTarget.dataset.eventId;
+            const found = allEventsCache.find(ev => ev.id === id);
+            if (found) fillEventForm(found);
+          });
+        });
+      });
+    }
+
+    prevMonthBtn.addEventListener("click", () => {
+      calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1, 1);
+      renderCalendar();
+    });
+
+    todayMonthBtn.addEventListener("click", () => {
+      calendarDate = new Date();
+      renderCalendar();
+    });
+
+    nextMonthBtn.addEventListener("click", () => {
+      calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 1);
+      renderCalendar();
+    });
+
+    renderCalendar();
+    resetNewsForm();
+    resetEventForm();
+  </script>
+</body>
+</html>
