@@ -1,0 +1,3144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>행복한 복어가족 소개 홈페이지</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg1: #dff4ff;
+      --bg2: #fdf6ff;
+      --card: rgba(255, 255, 255, 0.72);
+      --line: rgba(255, 255, 255, 0.9);
+      --text: #3b2f4a;
+      --muted: #6c6a7a;
+      --accent: #7cc8ff;
+      --accent2: #ffb3c7;
+      --accent3: #ffd36e;
+      --shadow: 0 18px 40px rgba(84, 112, 151, 0.18);
+      --shadow-soft: 0 10px 25px rgba(84, 112, 151, 0.12);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(124, 200, 255, 0.45), transparent 25%),
+        radial-gradient(circle at 90% 10%, rgba(255, 179, 199, 0.35), transparent 22%),
+        radial-gradient(circle at 80% 85%, rgba(255, 211, 110, 0.28), transparent 20%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .bubbles,
+    .bubbles::before,
+    .bubbles::after {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.9) 0 10px, transparent 11px),
+        radial-gradient(circle at 22% 70%, rgba(255,255,255,0.7) 0 7px, transparent 8px),
+        radial-gradient(circle at 86% 20%, rgba(255,255,255,0.8) 0 8px, transparent 9px),
+        radial-gradient(circle at 92% 74%, rgba(255,255,255,0.85) 0 14px, transparent 15px),
+        radial-gradient(circle at 74% 60%, rgba(255,255,255,0.6) 0 6px, transparent 7px);
+      opacity: 0.55;
+    }
+
+    .bubbles::before {
+      transform: translateY(18px);
+      opacity: 0.35;
+    }
+
+    .bubbles::after {
+      transform: translateY(-14px);
+      opacity: 0.25;
+    }
+
+    .bg-puffer {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(900px, 120vw);
+      opacity: 0.06;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(1px);
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      transition: width 0.3s ease;
+    }
+
+    .view-mode-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .view-mode-btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      color: #5d6580;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(210, 224, 245, 0.95);
+      transition: 0.2s ease;
+      box-shadow: 0 8px 16px rgba(138, 162, 189, 0.08);
+    }
+
+    .view-mode-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .view-mode-btn.active {
+      background: linear-gradient(90deg, rgba(124,200,255,0.98), rgba(255,179,199,0.98));
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 10px 18px rgba(124,200,255,0.18);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 42px 0 28px;
+    }
+
+    .hero-card {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: 34px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(255,255,255,0.95);
+      color: #6e7da8;
+      font-size: 14px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(36px, 6vw, 68px);
+      line-height: 1.06;
+      margin: 0 0 16px;
+      font-weight: 900;
+      letter-spacing: -1.3px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #68bfff, #ff9fb8, #ffcb57);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.85;
+      margin: 0 0 26px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .btn {
+      text-decoration: none;
+      padding: 14px 22px;
+      border-radius: 16px;
+      font-weight: 800;
+      transition: 0.22s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: white;
+      box-shadow: 0 10px 24px rgba(124,200,255,0.36);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.75);
+      color: #5c6286;
+      border: 1px solid rgba(255,255,255,0.95);
+    }
+
+    .btn-lotto {
+      background: linear-gradient(90deg, #ffd36e, #ffb871);
+      color: #6a4621;
+      box-shadow: 0 10px 24px rgba(255,211,110,0.28);
+    }
+
+    .btn-apply {
+      background: linear-gradient(90deg, #8ad1ff, #ffb6cd);
+      color: white;
+      box-shadow: 0 10px 20px rgba(124,200,255,0.18);
+    }
+
+    .btn-more {
+      background: linear-gradient(90deg, #a4d8ff, #d7c7ff);
+      color: white;
+      box-shadow: 0 10px 20px rgba(124,200,255,0.15);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .info-box {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .info-box small {
+      display: block;
+      color: #7e87a0;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .info-box strong {
+      font-size: 17px;
+    }
+
+    .family-visual {
+      display: grid;
+      place-items: center;
+    }
+
+    .family-card {
+      width: min(430px, 100%);
+      padding: 18px;
+      border-radius: 32px;
+      background: rgba(255,255,255,0.58);
+      border: 1px solid rgba(255,255,255,0.95);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .family-image {
+      width: 100%;
+      border-radius: 26px;
+      display: block;
+      box-shadow: 0 12px 28px rgba(92, 133, 176, 0.18);
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+      aspect-ratio: 1 / 1;
+    }
+
+    .family-image:hover {
+      transform: scale(1.02);
+    }
+
+    .family-card h2 {
+      margin: 16px 0 8px;
+      font-size: 30px;
+    }
+
+    .family-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .chip {
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.95);
+      font-size: 13px;
+      font-weight: 700;
+      color: #6f6f86;
+    }
+
+    .chip-link {
+      text-decoration: none;
+      transition: 0.2s ease;
+      cursor: pointer;
+    }
+
+    .chip-link:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(90deg, rgba(124,200,255,0.95), rgba(255,179,199,0.95));
+      color: white;
+      box-shadow: 0 8px 18px rgba(124,200,255,0.22);
+    }
+
+    .section {
+      padding: 0 0 78px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 5vw, 42px);
+      margin: 0 0 12px;
+      letter-spacing: -0.8px;
+    }
+
+    .section-desc {
+      margin: 0 0 28px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 24px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(255,255,255,0.95);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      box-shadow: 0 10px 20px rgba(138, 162, 189, 0.08);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 28px rgba(138, 162, 189, 0.15);
+    }
+
+    .icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(124,200,255,0.32), rgba(255,179,199,0.35));
+      font-size: 24px;
+      margin-bottom: 14px;
+      user-select: none;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .lotto-panel {
+      margin-top: 28px;
+      padding: 28px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.64);
+      border: 1px solid rgba(255,255,255,0.95);
+      box-shadow: var(--shadow);
+      display: none;
+    }
+
+    .lotto-panel.show {
+      display: block;
+      animation: fadeUp 0.35s ease;
+    }
+
+    .lotto-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .message {
+      font-size: 18px;
+      color: #8e6486;
+      min-height: 28px;
+      margin-bottom: 12px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .numbers {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      min-height: 72px;
+      margin-bottom: 24px;
+    }
+
+    .ball {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      color: white;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+      animation: pop 0.35s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .range-1 { background: #ffbe54; }
+    .range-2 { background: #67b9ff; }
+    .range-3 { background: #ff8ca3; }
+    .range-4 { background: #9aa7c5; }
+    .range-5 { background: #74d59b; }
+
+    .history {
+      margin-top: 24px;
+      text-align: left;
+      background: rgba(255,255,255,0.58);
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .history h3 {
+      font-size: 20px;
+      margin: 0 0 12px;
+    }
+
+    .history-list {
+      margin: 0;
+      padding-left: 20px;
+      color: #6b6d7e;
+      line-height: 1.85;
+    }
+
+    .empty {
+      color: #9a9aad;
+    }
+
+    .guest-form {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .guest-form input,
+    .guest-form textarea,
+    .event-fields input,
+    .event-fields textarea {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #e1e4ef;
+      font: inherit;
+      outline: none;
+      background: rgba(255,255,255,0.9);
+    }
+
+    .guest-form input:focus,
+    .guest-form textarea:focus,
+    .event-fields input:focus,
+    .event-fields textarea:focus,
+    .family-news-form input:focus,
+    .family-news-form textarea:focus {
+      border-color: #9fcfff;
+      box-shadow: 0 0 0 4px rgba(124,200,255,0.12);
+    }
+
+    .guest-form textarea,
+    .event-fields textarea {
+      resize: none;
+    }
+
+    .guest-form textarea {
+      min-height: 92px;
+    }
+
+    .guest-form-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .guest-save-btn {
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #ff9fb8, #ffb8cb);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .guest-save-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .greeting-list {
+      margin-top: 14px;
+      font-size: 14px;
+      color: #555;
+      display: grid;
+      gap: 10px;
+    }
+
+    .greeting-item {
+      padding: 12px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.95);
+      border-radius: 14px;
+    }
+
+    .greeting-header {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .greeting-date {
+      color: #999;
+      font-size: 12px;
+    }
+
+    .greeting-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .small-btn {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .small-btn.delete {
+      background: #ffe1e4;
+      color: #9d4552;
+    }
+
+    footer {
+      padding: 28px 0 40px;
+      text-align: center;
+      color: #8a8aa0;
+      font-size: 14px;
+    }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal-panel {
+      width: min(920px, 100%);
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 18px 48px rgba(0,0,0,0.35);
+      animation: fadeUp 0.25s ease;
+    }
+
+    .modal-panel.scrollable {
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 10px;
+      background: #f1f2f7;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .thumb-grid {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      justify-content: center;
+    }
+
+    .thumb-grid img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      border: 3px solid transparent;
+    }
+
+    .thumb-grid img.active {
+      border-color: #8ccfff;
+    }
+
+    .gallery-actions {
+      margin-top: 16px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .puffer-upload-wrap {
+      margin: 14px 0;
+    }
+
+    .gallery-grid {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      max-height: 60vh;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .gallery-thumb-wrap {
+      position: relative;
+      width: 120px;
+    }
+
+    .gallery-grid img {
+      width: 120px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+      display: block;
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.03);
+    }
+
+    .gallery-delete-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      border: none;
+      background: rgba(255,255,255,0.92);
+      color: #9d4552;
+      border-radius: 999px;
+      width: 28px;
+      height: 28px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .viewer-shell {
+      position: relative;
+      width: 96%;
+      height: 96%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .viewer-image {
+      max-width: 90vw;
+      max-height: 86vh;
+      transform: scale(1);
+      transition: transform 0.2s ease;
+      user-select: none;
+      border-radius: 14px;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.35);
+      background: white;
+    }
+
+    .viewer-nav,
+    .viewer-zoom,
+    .viewer-close {
+      position: absolute;
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+      font-weight: 800;
+    }
+
+    .viewer-close {
+      top: 8px;
+      right: 8px;
+      padding: 10px 14px;
+      border-radius: 10px;
+    }
+
+    .viewer-nav {
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52px;
+      height: 52px;
+      font-size: 20px;
+    }
+
+    .viewer-prev { left: 8px; }
+    .viewer-next { right: 8px; }
+
+    .viewer-controls {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .viewer-zoom {
+      padding: 10px 14px;
+      border-radius: 10px;
+    }
+
+    .greeting-modal-list {
+      margin-top: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .greeting-modal-item {
+      padding: 14px;
+      border-radius: 14px;
+      background: #f9fbff;
+      border: 1px solid #e6eef8;
+    }
+
+    .greeting-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .greeting-modal-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .greeting-modal-message {
+      color: #50566a;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .event-manager {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .event-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .event-fields textarea {
+      min-height: 80px;
+    }
+
+    .event-save-btn {
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #8ad1ff, #ffb6cd);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .event-save-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .event-list {
+      margin-top: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .event-item {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.95);
+    }
+
+    .event-item.editable {
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .event-item.editable:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(138, 162, 189, 0.12);
+    }
+
+    .event-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+
+    .event-date {
+      font-size: 12px;
+      color: #8b8ea0;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .event-title {
+      font-weight: 800;
+      color: #4b4f68;
+    }
+
+    .event-memo {
+      color: #62677b;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .event-delete-btn {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      background: #ffe1e4;
+      color: #9d4552;
+    }
+
+    .event-actions-inline {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .event-list-modal {
+      margin-top: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .event-modal-item {
+      padding: 14px;
+      border-radius: 14px;
+      background: #f9fbff;
+      border: 1px solid #e6eef8;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .event-modal-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(138, 162, 189, 0.10);
+    }
+
+    .event-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .event-modal-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .event-modal-message {
+      color: #50566a;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .helper-text {
+      font-size: 13px;
+      color: #8a88a0;
+      line-height: 1.6;
+    }
+
+    .calendar-wrap {
+      margin-top: 12px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .calendar-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: #4a4f68;
+    }
+
+    .calendar-nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .calendar-nav button {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 800;
+      background: linear-gradient(90deg, rgba(124,200,255,0.95), rgba(255,179,199,0.95));
+      color: white;
+      box-shadow: 0 8px 18px rgba(124,200,255,0.18);
+    }
+
+    .calendar-weekdays,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .calendar-weekday {
+      text-align: center;
+      font-size: 13px;
+      color: #7c8298;
+      font-weight: 800;
+      padding: 6px 0;
+    }
+
+    .calendar-cell {
+      min-height: 120px;
+      border-radius: 16px;
+      background: #f9fbff;
+      border: 1px solid #e6eef8;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: 0.2s ease;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .calendar-cell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 20px rgba(138, 162, 189, 0.12);
+      border-color: #b9dbff;
+      background: linear-gradient(180deg, #fbfdff, #f3f9ff);
+    }
+
+    .calendar-cell:hover .calendar-empty-action {
+      opacity: 1;
+      transform: translateY(0);
+      color: #5b89b8;
+      font-weight: 800;
+    }
+
+    .calendar-cell:active {
+      transform: scale(0.99);
+    }
+
+    .calendar-cell.other-month {
+      opacity: 0.38;
+    }
+
+    .calendar-cell.today {
+      border: 2px solid #9bcfff;
+      box-shadow: 0 10px 18px rgba(124,200,255,0.10);
+    }
+
+    .calendar-date-number {
+      font-size: 14px;
+      font-weight: 900;
+      color: #49506b;
+    }
+
+    .calendar-event-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .calendar-event-chip {
+      padding: 7px 9px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, rgba(124,200,255,0.16), rgba(255,179,199,0.16));
+      border: 1px solid rgba(124,200,255,0.2);
+      font-size: 12px;
+      color: #4f556c;
+      cursor: pointer;
+      transition: 0.2s ease;
+      line-height: 1.45;
+      user-select: none;
+    }
+
+    .calendar-event-chip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 14px rgba(124,200,255,0.12);
+    }
+
+    .calendar-empty {
+      color: #98a0b5;
+      font-size: 12px;
+    }
+
+    .calendar-empty-action {
+      margin-top: auto;
+      font-size: 12px;
+      color: #8fa1bb;
+      opacity: 0.72;
+      transform: translateY(2px);
+      transition: 0.2s ease;
+      line-height: 1.4;
+    }
+
+    .calendar-help {
+      color: #7f8191;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .news-mini-list {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .news-mini-item {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.95);
+      color: #555d74;
+      font-weight: 700;
+      line-height: 1.6;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .news-mini-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(138, 162, 189, 0.10);
+    }
+
+    .news-mini-date {
+      display: block;
+      margin-top: 4px;
+      font-size: 12px;
+      color: #8f93a7;
+      font-weight: 600;
+    }
+
+    .family-news-form {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .family-news-form input,
+    .family-news-form textarea {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #e1e4ef;
+      font: inherit;
+      outline: none;
+      background: rgba(255,255,255,0.95);
+    }
+
+    .family-news-form textarea {
+      resize: none;
+      min-height: 120px;
+    }
+
+    .family-news-form-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .family-news-cancel-btn {
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: #eef1f7;
+      color: #626a82;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: none;
+    }
+
+    .family-news-cancel-btn.show {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .family-news-cancel-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .family-news-list {
+      margin-top: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .family-news-item {
+      padding: 14px;
+      border-radius: 14px;
+      background: #f9fbff;
+      border: 1px solid #e6eef8;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .family-news-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(138, 162, 189, 0.10);
+    }
+
+    .family-news-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .family-news-title {
+      font-size: 17px;
+      font-weight: 900;
+      color: #4b4f68;
+    }
+
+    .family-news-date {
+      font-size: 12px;
+      color: #8b8ea0;
+      font-weight: 700;
+    }
+
+    .family-news-content {
+      color: #5f657b;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 14px;
+    }
+
+    .event-card-clickable {
+      cursor: pointer;
+    }
+
+    .event-card-clickable:hover {
+      box-shadow: 0 18px 30px rgba(138, 162, 189, 0.18);
+    }
+
+    .event-summary-note {
+      margin-top: 10px;
+      color: #80859b;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .event-editor-cancel-btn {
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: #eef1f7;
+      color: #626a82;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: none;
+    }
+
+    .event-editor-cancel-btn.show {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .event-editor-cancel-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* 강제 모바일 보기 */
+    body.force-mobile .container {
+      width: min(430px, calc(100% - 20px));
+    }
+
+    body.force-mobile .hero {
+      min-height: auto;
+      padding-top: 20px;
+    }
+
+    body.force-mobile .hero-card,
+    body.force-mobile .cards {
+      grid-template-columns: 1fr;
+    }
+
+    body.force-mobile .info-grid {
+      grid-template-columns: 1fr;
+    }
+
+    body.force-mobile .actions {
+      flex-direction: column;
+    }
+
+    body.force-mobile .btn {
+      width: 100%;
+    }
+
+    body.force-mobile .hero-card,
+    body.force-mobile .lotto-panel,
+    body.force-mobile .modal-panel {
+      padding: 22px;
+    }
+
+    body.force-mobile .calendar-weekdays,
+    body.force-mobile .calendar-grid {
+      gap: 6px;
+    }
+
+    body.force-mobile .calendar-cell {
+      min-height: 96px;
+      padding: 10px 8px;
+      border-radius: 14px;
+    }
+
+    body.force-mobile .calendar-date-number {
+      font-size: 13px;
+    }
+
+    body.force-mobile .calendar-event-chip {
+      font-size: 11px;
+      padding: 7px 7px;
+    }
+
+    body.force-mobile .calendar-empty-action {
+      font-size: 11px;
+      opacity: 1;
+      color: #6f8db1;
+    }
+
+    body.force-mobile .gallery-actions .btn,
+    body.force-mobile .guest-form-buttons .btn,
+    body.force-mobile .guest-form-buttons .guest-save-btn,
+    body.force-mobile .family-news-form-buttons .event-save-btn,
+    body.force-mobile .family-news-form-buttons .family-news-cancel-btn,
+    body.force-mobile .event-fields .event-save-btn,
+    body.force-mobile .event-fields .event-editor-cancel-btn {
+      width: 100%;
+    }
+
+    @media (max-width: 900px) {
+      .hero-card,
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 28px;
+      }
+
+      .calendar-cell {
+        min-height: 106px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-card,
+      .lotto-panel,
+      .modal-panel {
+        padding: 22px;
+      }
+
+      .ball {
+        width: 54px;
+        height: 54px;
+        font-size: 20px;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .gallery-actions .btn,
+      .guest-form-buttons .btn,
+      .guest-form-buttons .guest-save-btn,
+      .family-news-form-buttons .event-save-btn,
+      .family-news-form-buttons .family-news-cancel-btn,
+      .event-fields .event-save-btn,
+      .event-fields .event-editor-cancel-btn {
+        width: 100%;
+      }
+
+      .calendar-weekdays,
+      .calendar-grid {
+        gap: 6px;
+      }
+
+      .calendar-cell {
+        min-height: 96px;
+        padding: 10px 8px;
+        border-radius: 14px;
+      }
+
+      .calendar-date-number {
+        font-size: 13px;
+      }
+
+      .calendar-event-chip {
+        font-size: 11px;
+        padding: 7px 7px;
+      }
+
+      .calendar-empty-action {
+        font-size: 11px;
+        opacity: 1;
+        color: #6f8db1;
+      }
+
+      .view-mode-bar {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bubbles"></div>
+  <img class="bg-puffer" id="bgPuffer" alt="background puffer" />
+
+  <main class="hero">
+    <div class="container">
+      <div class="view-mode-bar">
+        <button id="desktopModeBtn" class="view-mode-btn active" onclick="setPreviewMode('desktop')">기본 보기</button>
+        <button id="mobileModeBtn" class="view-mode-btn" onclick="setPreviewMode('mobile')">모바일 보기</button>
+      </div>
+
+      <section class="hero-card">
+        <div>
+          <span class="badge">🐡 Happy Puffer Family</span>
+          <h1>
+            <span class="gradient-text">행복한 복어가족</span>을 소개합니다
+          </h1>
+
+          <p class="lead">
+            동글동글 귀엽고 포근한 분위기의 복어가족 홈페이지예요.
+            이 가족은 작은 행복을 소중히 여기고, 함께 웃고, 함께 쉬고,
+            함께 따뜻한 하루를 만들어 갑니다. 편안한 바다처럼 잔잔하고,
+            사랑스러운 일상을 담은 소개 페이지로 꾸며 보았습니다.
+          </p>
+
+          <div class="actions">
+            <a href="#about" class="btn btn-primary">가족 이야기 보기</a>
+            <a href="#contact" class="btn btn-secondary">인사 남기기</a>
+            <button class="btn btn-lotto" onclick="toggleLotto()">행운 번호 뽑기</button>
+          </div>
+
+          <div class="info-grid">
+            <div class="info-box">
+              <small>가족 분위기</small>
+              <strong>따뜻함 · 웃음 · 포근함</strong>
+            </div>
+            <div class="info-box">
+              <small>좋아하는 것</small>
+              <strong>함께 쉬기 · 장난감 · 산책</strong>
+            </div>
+            <div class="info-box">
+              <small>특별한 매력</small>
+              <strong>통통한 볼 · 반짝이는 눈</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="family-visual">
+          <div class="family-card">
+            <img class="family-image" id="familyMainImage" src="./하트.gif" alt="행복한 복어가족 대표 이미지" />
+            <h2>복어가족 대표</h2>
+            <p>사진을 클릭하면 다른 사진으로 대표 이미지를 바꿀 수 있어요.</p>
+
+            <div class="chips">
+              <a class="chip chip-link" href="#family-love">#복어가족소식</a>
+              <a class="chip chip-link" href="#cute-puffer">#귀여운복어</a>
+              <a class="chip chip-link" href="#family-events">#가족행사</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="lottoPanel" class="lotto-panel">
+        <h2 class="section-title">🍀 복어가족의 행운 번호</h2>
+        <p class="section-desc">
+          재미로 눌러 보는 행운 번호 추천기예요. 1부터 45까지 중복 없는 번호 6개를 보여줍니다.
+        </p>
+
+        <div class="lotto-buttons">
+          <button id="lottoGenerateBtn" class="btn btn-lotto" onclick="generateLotto()">행운 번호 뽑기</button>
+          <button class="btn btn-secondary" onclick="resetAll()">초기화</button>
+        </div>
+
+        <div class="message" id="message">복어가족의 행운을 한 번 뽑아 보세요.</div>
+        <div class="numbers" id="numbers"></div>
+
+        <div class="history">
+          <h3>추천 기록</h3>
+          <ul class="history-list" id="historyList">
+            <li class="empty">아직 추천 기록이 없습니다.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <section class="section" id="about">
+    <div class="container">
+      <h2 class="section-title">복어가족은 어떤 가족인가요?</h2>
+      <p class="section-desc">
+        행복한 복어가족은 작은 순간에도 기쁨을 찾는 가족이에요. 부드러운 미소와 다정한 마음,
+        그리고 서로를 아끼는 따뜻함이 이 가족의 가장 큰 매력입니다.
+      </p>
+
+      <div class="cards">
+        <article class="card" id="family-love">
+          <div class="icon" onclick="openFamilyNewsModal()" style="cursor:pointer;" title="복어가족 소식 보기">📢</div>
+          <h3>복어가족 소식</h3>
+          <p>
+            복어가족의 새로운 소식을 전할 수 있는 공간이에요.
+            등록된 소식을 클릭하면 내용을 열어서 수정할 수 있어요.
+          </p>
+
+          <div id="familyNewsPreview" class="news-mini-list"></div>
+        </article>
+
+        <article class="card" id="cute-puffer">
+          <div class="icon" onclick="openPufferGallery()" style="cursor:pointer;" title="복어 사진 보기">🫧</div>
+          <h3>귀여운 복어</h3>
+          <p>
+            위 아이콘을 클릭하면 복어 사진을 저장하고 볼 수 있는 사진 창이 열립니다.
+          </p>
+        </article>
+
+        <article class="card event-card-clickable" id="family-events" onclick="openEventEditorModalForNew()">
+          <div class="icon">🎉</div>
+          <h3>가족행사</h3>
+          <p>
+            가족행사를 클릭하면 별도 창에서 일정을 입력할 수 있어요.
+            전체 보기와 달력 보기에서도 항목을 클릭하면 바로 수정 창으로 연결됩니다.
+            아래에는 현재일 기준으로 가까운 일정 3개가 표시됩니다.
+          </p>
+
+          <div class="event-manager">
+            <div class="event-actions-inline">
+              <button class="btn btn-apply" onclick="event.stopPropagation(); openEventEditorModalForNew();">가족행사 입력</button>
+              <button class="btn btn-more" onclick="event.stopPropagation(); openEventModal();">가족행사 전체 보기</button>
+              <button class="btn btn-secondary" onclick="event.stopPropagation(); openCalendarModal();">가족행사 달력 보기</button>
+            </div>
+
+            <div class="helper-text">현재일 기준으로 가까운 일정 3개를 빠르게 볼 수 있어요.</div>
+            <div id="familyEventList" class="event-list"></div>
+            <div class="event-summary-note">행사 카드나 일정 항목을 클릭하면 수정 창이 열립니다.</div>
+          </div>
+        </article>
+
+        <article class="card" id="contact">
+          <div class="icon">📮</div>
+          <h3>함께 인사해요</h3>
+          <p>
+            행복한 복어가족에게 인사를 남겨 주세요. 최근 저장된 인사말 3개가 아래에 표시됩니다.
+          </p>
+
+          <div class="guest-form">
+            <input id="guestName" placeholder="이름" />
+            <textarea id="guestMessage" placeholder="인사말을 남겨주세요"></textarea>
+
+            <div class="guest-form-buttons">
+              <button class="guest-save-btn" onclick="saveGreeting()">인사 저장</button>
+              <button class="btn btn-more" onclick="openGreetingModal()">인사 더보기</button>
+            </div>
+          </div>
+
+          <div id="greetingList" class="greeting-list"></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 행복한 복어가족 홈페이지 · Love, bubbles and smiles
+  </footer>
+
+  <!-- 대표 이미지 변경 모달 -->
+  <div id="imageModal" class="modal-backdrop">
+    <div class="modal-panel" style="max-width:900px; text-align:center;">
+      <button class="modal-close" onclick="closeGallery()">닫기 ✕</button>
+      <h2 style="margin-top:0;">복어가족 대표 사진 바꾸기</h2>
+      <p style="color:#7f8191; margin-top:0;">썸네일을 클릭해 미리 보고, 대표 사진으로 적용하세요.</p>
+      <img id="galleryMain" src="" style="width:100%; max-height:60vh; object-fit:contain; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.4);" alt="갤러리 메인 이미지">
+      <div id="galleryThumbs" class="thumb-grid"></div>
+      <div class="gallery-actions">
+        <button class="btn btn-apply" onclick="applySelectedRepresentative()">이 사진을 대표 사진으로 적용</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 인사 더보기 모달 -->
+  <div id="greetingModal" class="modal-backdrop">
+    <div class="modal-panel scrollable">
+      <button class="modal-close" onclick="closeGreetingModal()">닫기 ✕</button>
+      <h2 style="margin-top:0;">저장된 인사 모아보기</h2>
+      <p style="color:#7f8191; margin-top:0;">지금까지 저장된 인사말을 한 번에 볼 수 있어요.</p>
+      <div id="greetingModalList" class="greeting-modal-list"></div>
+    </div>
+  </div>
+
+  <!-- 가족행사 전체 보기 모달 -->
+  <div id="eventModal" class="modal-backdrop">
+    <div class="modal-panel scrollable">
+      <button class="modal-close" onclick="closeEventModal()">닫기 ✕</button>
+      <h2 style="margin-top:0;">저장된 가족행사 전체 보기</h2>
+      <p style="color:#7f8191; margin-top:0;">행사 항목을 클릭하면 수정 창으로 바로 열립니다.</p>
+      <div id="eventModalList" class="event-list-modal"></div>
+    </div>
+  </div>
+
+  <!-- 가족행사 달력 보기 모달 -->
+  <div id="calendarModal" class="modal-backdrop">
+    <div class="modal-panel scrollable">
+      <button class="modal-close" onclick="closeCalendarModal()">닫기 ✕</button>
+      <h2 style="margin-top:0;">가족행사 달력 보기</h2>
+      <p class="calendar-help">날짜 칸을 한 번 클릭하면 바로 일정 입력창이 열립니다. 일정 칩을 클릭하면 기존 일정 수정 모드로 이동합니다.</p>
+
+      <div class="calendar-wrap">
+        <div class="calendar-header">
+          <div id="calendarTitle" class="calendar-title"></div>
+          <div class="calendar-nav">
+            <button onclick="moveCalendarMonth(-1)">이전 달</button>
+            <button onclick="moveCalendarMonth(0)">이번 달</button>
+            <button onclick="moveCalendarMonth(1)">다음 달</button>
+          </div>
+        </div>
+
+        <div class="calendar-weekdays">
+          <div class="calendar-weekday">일</div>
+          <div class="calendar-weekday">월</div>
+          <div class="calendar-weekday">화</div>
+          <div class="calendar-weekday">수</div>
+          <div class="calendar-weekday">목</div>
+          <div class="calendar-weekday">금</div>
+          <div class="calendar-weekday">토</div>
+        </div>
+
+        <div id="calendarGrid" class="calendar-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 가족행사 입력/수정 모달 -->
+  <div id="eventEditorModal" class="modal-backdrop">
+    <div class="modal-panel scrollable">
+      <button class="modal-close" onclick="closeEventEditorModal()">닫기 ✕</button>
+      <h2 id="eventEditorTitle" style="margin-top:0;">가족행사 입력</h2>
+      <p style="color:#7f8191; margin-top:0;">날짜와 시간, 제목, 행사 내용을 입력해서 저장할 수 있어요.</p>
+
+      <div class="event-fields">
+        <input type="datetime-local" id="familyEventDateTime" />
+        <input type="text" id="familyEventTitle" placeholder="행사 제목" />
+        <textarea id="familyEventMemo" placeholder="행사 내용을 적어주세요"></textarea>
+
+        <div class="family-news-form-buttons">
+          <button id="familyEventSaveBtn" class="event-save-btn" onclick="saveFamilyEvent()">가족행사 저장</button>
+          <button id="familyEventCancelBtn" class="event-editor-cancel-btn" onclick="cancelFamilyEventEdit()">수정 취소</button>
+        </div>
+
+        <div class="helper-text">새로 입력하거나 기존 일정을 수정할 수 있어요.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 복어가족 소식 모달 -->
+  <div id="familyNewsModal" class="modal-backdrop">
+    <div class="modal-panel scrollable">
+      <button class="modal-close" onclick="closeFamilyNewsModal()">닫기 ✕</button>
+      <h2 style="margin-top:0;">복어가족 소식 전하기</h2>
+      <p style="color:#7f8191; margin-top:0;">
+        새로운 소식의 제목과 내용을 입력해서 저장할 수 있어요. 등록된 소식을 클릭하면 수정 모드로 불러옵니다.
+      </p>
+
+      <div class="family-news-form">
+        <input type="text" id="familyNewsTitle" placeholder="소식 제목" />
+        <textarea id="familyNewsContent" placeholder="소식 내용을 적어주세요"></textarea>
+
+        <div class="family-news-form-buttons">
+          <button id="familyNewsSaveBtn" class="event-save-btn" onclick="saveFamilyNews()">소식 저장</button>
+          <button id="familyNewsCancelBtn" class="family-news-cancel-btn" onclick="cancelFamilyNewsEdit()">수정 취소</button>
+        </div>
+
+        <div class="helper-text">아래 등록된 소식을 클릭하면 입력창으로 불러와서 수정할 수 있어요.</div>
+      </div>
+
+      <div id="familyNewsList" class="family-news-list"></div>
+    </div>
+  </div>
+
+  <script>
+    const lottoPanel = document.getElementById("lottoPanel");
+    const numbersEl = document.getElementById("numbers");
+    const messageEl = document.getElementById("message");
+    const historyListEl = document.getElementById("historyList");
+    const lottoGenerateBtn = document.getElementById("lottoGenerateBtn");
+    const familyMainImage = document.getElementById("familyMainImage");
+    const bgPuffer = document.getElementById("bgPuffer");
+
+    let history = JSON.parse(localStorage.getItem("pufferLottoHistory") || "[]");
+    let currentPufferIndex = 0;
+    let currentZoom = 1;
+    let selectedGalleryImage = "";
+    let editingEventId = null;
+    let editingFamilyNewsId = null;
+    let calendarCurrentDate = new Date();
+
+    const defaultGalleryImages = [
+      "./하트.gif",
+      "./복어.png",
+      "./puffer.png"
+    ];
+
+    function lockBodyScroll() {
+      document.body.style.overflow = "hidden";
+    }
+
+    function unlockBodyScrollIfNoModal() {
+      const openedModal = document.querySelector(".modal-backdrop.show");
+      if (!openedModal) {
+        document.body.style.overflow = "";
+      }
+    }
+
+    function setPreviewMode(mode) {
+      const desktopBtn = document.getElementById("desktopModeBtn");
+      const mobileBtn = document.getElementById("mobileModeBtn");
+
+      if (mode === "mobile") {
+        document.body.classList.add("force-mobile");
+        localStorage.setItem("pufferPreviewMode", "mobile");
+        desktopBtn.classList.remove("active");
+        mobileBtn.classList.add("active");
+      } else {
+        document.body.classList.remove("force-mobile");
+        localStorage.setItem("pufferPreviewMode", "desktop");
+        desktopBtn.classList.add("active");
+        mobileBtn.classList.remove("active");
+      }
+    }
+
+    function loadPreviewMode() {
+      const savedMode = localStorage.getItem("pufferPreviewMode") || "desktop";
+      setPreviewMode(savedMode);
+    }
+
+    function closeAllEventRelatedModals() {
+      closeEventModal();
+      closeCalendarModal();
+    }
+
+    function saveLottoHistoryToStorage() {
+      localStorage.setItem("pufferLottoHistory", JSON.stringify(history));
+    }
+
+    function getGreetings() {
+      return JSON.parse(localStorage.getItem("pufferGreetings") || "[]");
+    }
+
+    function saveGreetings(greetings) {
+      localStorage.setItem("pufferGreetings", JSON.stringify(greetings));
+    }
+
+    function getFamilyEvents() {
+      const raw = JSON.parse(localStorage.getItem("pufferFamilyEvents") || "[]");
+
+      if (Array.isArray(raw)) {
+        return raw;
+      }
+
+      if (raw && Array.isArray(raw.daily)) {
+        return raw.daily.map(event => {
+          if (event.datetime) return event;
+
+          return {
+            id: event.id || Date.now(),
+            datetime: event.date ? `${event.date}T09:00` : formatDateTimeLocalValue(new Date()),
+            title: event.title || "",
+            memo: event.memo || ""
+          };
+        });
+      }
+
+      return [];
+    }
+
+    function saveFamilyEvents(events) {
+      localStorage.setItem("pufferFamilyEvents", JSON.stringify(events));
+    }
+
+    function getFamilyNews() {
+      return JSON.parse(localStorage.getItem("pufferFamilyNews") || "[]");
+    }
+
+    function saveFamilyNewsToStorage(news) {
+      localStorage.setItem("pufferFamilyNews", JSON.stringify(news));
+    }
+
+    function toggleLotto() {
+      lottoPanel.classList.toggle("show");
+      if (lottoPanel.classList.contains("show")) {
+        lottoPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function getBallClass(number) {
+      if (number <= 10) return "range-1";
+      if (number <= 20) return "range-2";
+      if (number <= 30) return "range-3";
+      if (number <= 40) return "range-4";
+      return "range-5";
+    }
+
+    function generateUniqueLottoNumbers() {
+      const picked = [];
+      while (picked.length < 6) {
+        const random = Math.floor(Math.random() * 45) + 1;
+        if (!picked.includes(random)) picked.push(random);
+      }
+      picked.sort((a, b) => a - b);
+      return picked;
+    }
+
+    async function generateLotto() {
+      const picked = generateUniqueLottoNumbers();
+      lottoGenerateBtn.disabled = true;
+      numbersEl.innerHTML = "";
+      messageEl.textContent = "행운 번호를 고르는 중이에요...";
+
+      await renderNumbersAnimated(picked);
+
+      saveHistory(picked);
+      messageEl.textContent = "오늘의 복어가족 행운 번호예요. 기분 좋은 하루 보내세요!";
+      lottoGenerateBtn.disabled = false;
+    }
+
+    function renderNumbersAnimated(arr) {
+      numbersEl.innerHTML = "";
+
+      return new Promise((resolve) => {
+        arr.forEach((number, index) => {
+          setTimeout(() => {
+            const ball = document.createElement("div");
+            ball.className = `ball ${getBallClass(number)}`;
+            ball.textContent = number;
+            numbersEl.appendChild(ball);
+
+            if (index === arr.length - 1) {
+              resolve();
+            }
+          }, index * 180);
+        });
+      });
+    }
+
+    function saveHistory(arr) {
+      const text = arr.join(", ");
+      history.unshift(text);
+      if (history.length > 5) history.pop();
+      saveLottoHistoryToStorage();
+      renderHistory();
+    }
+
+    function renderHistory() {
+      historyListEl.innerHTML = "";
+
+      if (history.length === 0) {
+        historyListEl.innerHTML = '<li class="empty">아직 추천 기록이 없습니다.</li>';
+        return;
+      }
+
+      history.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${index + 1}번 추천: ${item}`;
+        historyListEl.appendChild(li);
+      });
+    }
+
+    function resetAll() {
+      numbersEl.innerHTML = "";
+      history = [];
+      saveLottoHistoryToStorage();
+      renderHistory();
+      messageEl.textContent = "복어가족의 행운을 한 번 뽑아 보세요.";
+      lottoGenerateBtn.disabled = false;
+    }
+
+    function saveGreeting() {
+      const name = document.getElementById("guestName").value.trim();
+      const msg = document.getElementById("guestMessage").value.trim();
+
+      if (!name || !msg) {
+        alert("이름과 인사말을 입력해주세요.");
+        return;
+      }
+
+      const greetings = getGreetings();
+
+      greetings.unshift({
+        name,
+        msg,
+        date: new Date().toLocaleString()
+      });
+
+      saveGreetings(greetings.slice(0, 50));
+
+      document.getElementById("guestName").value = "";
+      document.getElementById("guestMessage").value = "";
+
+      loadGreetings();
+      renderGreetingModalList();
+    }
+
+    function loadGreetings() {
+      const list = document.getElementById("greetingList");
+      const greetings = getGreetings();
+
+      list.innerHTML = "";
+
+      if (greetings.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "greeting-item";
+        empty.textContent = "아직 저장된 인사말이 없습니다.";
+        list.appendChild(empty);
+        return;
+      }
+
+      const recentGreetings = greetings.slice(0, 3);
+
+      recentGreetings.forEach((greeting, index) => {
+        const item = document.createElement("div");
+        item.className = "greeting-item";
+
+        const header = document.createElement("div");
+        header.className = "greeting-header";
+
+        const name = document.createElement("strong");
+        name.textContent = greeting.name;
+
+        const date = document.createElement("span");
+        date.className = "greeting-date";
+        date.textContent = greeting.date;
+
+        const msg = document.createElement("div");
+        msg.textContent = greeting.msg;
+
+        const actions = document.createElement("div");
+        actions.className = "greeting-actions";
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "small-btn delete";
+        deleteBtn.textContent = "삭제";
+        deleteBtn.onclick = function () {
+          deleteGreeting(index);
+        };
+
+        actions.appendChild(deleteBtn);
+        header.appendChild(name);
+        header.appendChild(date);
+        item.appendChild(header);
+        item.appendChild(msg);
+        item.appendChild(actions);
+        list.appendChild(item);
+      });
+    }
+
+    function deleteGreeting(index) {
+      const greetings = getGreetings();
+      greetings.splice(index, 1);
+      saveGreetings(greetings);
+      loadGreetings();
+      renderGreetingModalList();
+    }
+
+    function openGreetingModal() {
+      renderGreetingModalList();
+      document.getElementById("greetingModal").classList.add("show");
+      lockBodyScroll();
+    }
+
+    function closeGreetingModal() {
+      document.getElementById("greetingModal").classList.remove("show");
+      unlockBodyScrollIfNoModal();
+    }
+
+    function renderGreetingModalList() {
+      const container = document.getElementById("greetingModalList");
+      const greetings = getGreetings();
+
+      container.innerHTML = "";
+
+      if (greetings.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "greeting-modal-item";
+        empty.textContent = "아직 저장된 인사말이 없습니다.";
+        container.appendChild(empty);
+        return;
+      }
+
+      greetings.forEach((greeting, index) => {
+        const item = document.createElement("div");
+        item.className = "greeting-modal-item";
+
+        const header = document.createElement("div");
+        header.className = "greeting-modal-header";
+
+        const meta = document.createElement("div");
+        meta.className = "greeting-modal-meta";
+
+        const name = document.createElement("strong");
+        name.textContent = greeting.name;
+
+        const date = document.createElement("span");
+        date.className = "greeting-date";
+        date.textContent = greeting.date;
+
+        meta.appendChild(name);
+        meta.appendChild(date);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "small-btn delete";
+        deleteBtn.textContent = "삭제";
+        deleteBtn.onclick = function () {
+          deleteGreeting(index);
+        };
+
+        const message = document.createElement("div");
+        message.className = "greeting-modal-message";
+        message.textContent = greeting.msg;
+
+        header.appendChild(meta);
+        header.appendChild(deleteBtn);
+
+        item.appendChild(header);
+        item.appendChild(message);
+
+        container.appendChild(item);
+      });
+    }
+
+    function formatDateTimeLocalValue(date) {
+      const pad = (num) => String(num).padStart(2, "0");
+
+      const year = date.getFullYear();
+      const month = pad(date.getMonth() + 1);
+      const day = pad(date.getDate());
+      const hours = pad(date.getHours());
+      const minutes = pad(date.getMinutes());
+
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+
+    function formatFamilyEventDate(value) {
+      const date = new Date(value);
+      if (isNaN(date.getTime())) return value;
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      let hours = date.getHours();
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const ampm = hours >= 12 ? "오후" : "오전";
+
+      hours = hours % 12;
+      if (hours === 0) hours = 12;
+
+      return `${year}-${month}-${day} ${ampm} ${hours}:${minutes}`;
+    }
+
+    function formatCalendarTitle(date) {
+      return `${date.getFullYear()}년 ${date.getMonth() + 1}월`;
+    }
+
+    function getDateKey(dateObj) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const d = String(dateObj.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function getEventDateKey(datetimeValue) {
+      const date = new Date(datetimeValue);
+      if (isNaN(date.getTime())) return "";
+      return getDateKey(date);
+    }
+
+    function isSameDate(a, b) {
+      return a.getFullYear() === b.getFullYear() &&
+             a.getMonth() === b.getMonth() &&
+             a.getDate() === b.getDate();
+    }
+
+    function getNearestEvents(list, count = 3) {
+      if (!list.length) return [];
+
+      const now = new Date();
+
+      const futureEvents = list
+        .filter(item => new Date(item.datetime) >= now)
+        .sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+
+      if (futureEvents.length >= count) {
+        return futureEvents.slice(0, count);
+      }
+
+      const pastEvents = list
+        .filter(item => new Date(item.datetime) < now)
+        .sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
+
+      return [...futureEvents, ...pastEvents].slice(0, count);
+    }
+
+    function getSortedEvents() {
+      const events = getFamilyEvents();
+      return [...events].sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+    }
+
+    function updateEventEditUI() {
+      const saveBtn = document.getElementById("familyEventSaveBtn");
+      const cancelBtn = document.getElementById("familyEventCancelBtn");
+      const titleEl = document.getElementById("eventEditorTitle");
+
+      if (editingEventId !== null) {
+        saveBtn.textContent = "행사 수정 완료";
+        cancelBtn.classList.add("show");
+        titleEl.textContent = "가족행사 수정";
+      } else {
+        saveBtn.textContent = "가족행사 저장";
+        cancelBtn.classList.remove("show");
+        titleEl.textContent = "가족행사 입력";
+      }
+    }
+
+    function resetFamilyEventForm() {
+      document.getElementById("familyEventDateTime").value = "";
+      document.getElementById("familyEventTitle").value = "";
+      document.getElementById("familyEventMemo").value = "";
+
+      editingEventId = null;
+      updateEventEditUI();
+    }
+
+    function cancelFamilyEventEdit() {
+      resetFamilyEventForm();
+      document.getElementById("familyEventDateTime").focus();
+    }
+
+    function openEventEditorModalForNew() {
+      resetFamilyEventForm();
+      document.getElementById("eventEditorModal").classList.add("show");
+      lockBodyScroll();
+      setTimeout(() => {
+        document.getElementById("familyEventDateTime").focus();
+      }, 100);
+    }
+
+    function openEventEditorModalWithDate(dateObj) {
+      resetFamilyEventForm();
+
+      const selectedDate = new Date(
+        dateObj.getFullYear(),
+        dateObj.getMonth(),
+        dateObj.getDate(),
+        9,
+        0
+      );
+
+      document.getElementById("familyEventDateTime").value = formatDateTimeLocalValue(selectedDate);
+
+      closeAllEventRelatedModals();
+
+      document.getElementById("eventEditorModal").classList.add("show");
+      lockBodyScroll();
+
+      setTimeout(() => {
+        document.getElementById("familyEventTitle").focus();
+      }, 120);
+    }
+
+    function closeEventEditorModal() {
+      document.getElementById("eventEditorModal").classList.remove("show");
+      resetFamilyEventForm();
+      unlockBodyScrollIfNoModal();
+    }
+
+    function startEditFamilyEvent(eventData) {
+      document.getElementById("familyEventDateTime").value = eventData.datetime || "";
+      document.getElementById("familyEventTitle").value = eventData.title || "";
+      document.getElementById("familyEventMemo").value = eventData.memo || "";
+      editingEventId = eventData.id;
+      updateEventEditUI();
+
+      closeAllEventRelatedModals();
+
+      document.getElementById("eventEditorModal").classList.add("show");
+      lockBodyScroll();
+
+      setTimeout(() => {
+        document.getElementById("familyEventTitle").focus();
+      }, 120);
+    }
+
+    function saveFamilyEvent() {
+      const datetime = document.getElementById("familyEventDateTime").value;
+      const title = document.getElementById("familyEventTitle").value.trim();
+      const memo = document.getElementById("familyEventMemo").value.trim();
+
+      if (!datetime) {
+        alert("행사 날짜와 시간을 선택해주세요.");
+        return;
+      }
+
+      if (!title) {
+        alert("행사 제목을 입력해주세요.");
+        return;
+      }
+
+      const events = getFamilyEvents();
+
+      if (editingEventId !== null) {
+        const target = events.find(event => event.id === editingEventId);
+
+        if (target) {
+          target.datetime = datetime;
+          target.title = title;
+          target.memo = memo;
+        }
+      } else {
+        events.unshift({
+          id: Date.now(),
+          datetime,
+          title,
+          memo
+        });
+      }
+
+      events.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+      saveFamilyEvents(events);
+      renderFamilyEvents();
+      renderEventModalList();
+      renderCalendar();
+      closeEventEditorModal();
+    }
+
+    function deleteFamilyEvent(id) {
+      const events = getFamilyEvents().filter(event => event.id !== id);
+      saveFamilyEvents(events);
+
+      if (editingEventId === id) {
+        resetFamilyEventForm();
+      }
+
+      renderFamilyEvents();
+      renderEventModalList();
+      renderCalendar();
+    }
+
+    function renderFamilyEvents() {
+      const container = document.getElementById("familyEventList");
+      if (!container) return;
+
+      const events = getFamilyEvents();
+      container.innerHTML = "";
+
+      if (events.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "event-item editable";
+        empty.textContent = "저장된 가족행사가 없습니다. 클릭해서 새 일정을 입력해 보세요.";
+        empty.onclick = function () {
+          openEventEditorModalForNew();
+        };
+        container.appendChild(empty);
+        return;
+      }
+
+      const nearestEvents = getNearestEvents(events, 3);
+
+      nearestEvents.forEach((eventData) => {
+        const item = document.createElement("div");
+        item.className = "event-item editable";
+        item.title = "클릭해서 수정";
+        item.onclick = function (e) {
+          e.stopPropagation();
+          startEditFamilyEvent(eventData);
+        };
+
+        const header = document.createElement("div");
+        header.className = "event-item-header";
+
+        const left = document.createElement("div");
+
+        const title = document.createElement("div");
+        title.className = "event-title";
+        title.textContent = eventData.title;
+
+        const date = document.createElement("div");
+        date.className = "event-date";
+        date.textContent = formatFamilyEventDate(eventData.datetime);
+
+        left.appendChild(title);
+        left.appendChild(date);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "event-delete-btn";
+        deleteBtn.textContent = "삭제";
+        deleteBtn.onclick = function (e) {
+          e.stopPropagation();
+          deleteFamilyEvent(eventData.id);
+        };
+
+        header.appendChild(left);
+        header.appendChild(deleteBtn);
+
+        item.appendChild(header);
+
+        const memo = document.createElement("div");
+        memo.className = "event-memo";
+        memo.textContent = eventData.memo ? eventData.memo : "등록된 행사내용이 없습니다.";
+        item.appendChild(memo);
+
+        container.appendChild(item);
+      });
+    }
+
+    function openEventModal() {
+      renderEventModalList();
+      document.getElementById("eventModal").classList.add("show");
+      lockBodyScroll();
+    }
+
+    function closeEventModal() {
+      document.getElementById("eventModal").classList.remove("show");
+      unlockBodyScrollIfNoModal();
+    }
+
+    function renderEventModalList() {
+      const container = document.getElementById("eventModalList");
+      if (!container) return;
+
+      const events = getSortedEvents();
+      container.innerHTML = "";
+
+      if (events.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "event-modal-item";
+        empty.textContent = "저장된 가족행사가 없습니다.";
+        container.appendChild(empty);
+        return;
+      }
+
+      events.forEach((eventData) => {
+        const item = document.createElement("div");
+        item.className = "event-modal-item";
+        item.title = "클릭해서 수정";
+        item.onclick = function () {
+          startEditFamilyEvent(eventData);
+        };
+
+        const header = document.createElement("div");
+        header.className = "event-modal-header";
+
+        const meta = document.createElement("div");
+        meta.className = "event-modal-meta";
+
+        const title = document.createElement("strong");
+        title.textContent = eventData.title;
+
+        const date = document.createElement("span");
+        date.className = "event-date";
+        date.textContent = formatFamilyEventDate(eventData.datetime);
+
+        meta.appendChild(title);
+        meta.appendChild(date);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "small-btn delete";
+        deleteBtn.textContent = "삭제";
+        deleteBtn.onclick = function (e) {
+          e.stopPropagation();
+          deleteFamilyEvent(eventData.id);
+        };
+
+        const message = document.createElement("div");
+        message.className = "event-modal-message";
+        message.textContent = eventData.memo ? eventData.memo : "등록된 행사내용이 없습니다.";
+
+        header.appendChild(meta);
+        header.appendChild(deleteBtn);
+        item.appendChild(header);
+        item.appendChild(message);
+
+        container.appendChild(item);
+      });
+    }
+
+    function openCalendarModal() {
+      calendarCurrentDate = new Date();
+      renderCalendar();
+      document.getElementById("calendarModal").classList.add("show");
+      lockBodyScroll();
+    }
+
+    function closeCalendarModal() {
+      document.getElementById("calendarModal").classList.remove("show");
+      unlockBodyScrollIfNoModal();
+    }
+
+    function moveCalendarMonth(diff) {
+      if (diff === 0) {
+        calendarCurrentDate = new Date();
+      } else {
+        calendarCurrentDate = new Date(
+          calendarCurrentDate.getFullYear(),
+          calendarCurrentDate.getMonth() + diff,
+          1
+        );
+      }
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      const titleEl = document.getElementById("calendarTitle");
+      const gridEl = document.getElementById("calendarGrid");
+      if (!titleEl || !gridEl) return;
+
+      const currentYear = calendarCurrentDate.getFullYear();
+      const currentMonth = calendarCurrentDate.getMonth();
+
+      titleEl.textContent = formatCalendarTitle(calendarCurrentDate);
+      gridEl.innerHTML = "";
+
+      const firstDay = new Date(currentYear, currentMonth, 1);
+      const lastDay = new Date(currentYear, currentMonth + 1, 0);
+
+      const startWeekday = firstDay.getDay();
+      const daysInMonth = lastDay.getDate();
+
+      const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+      const today = new Date();
+
+      const events = getSortedEvents();
+      const eventMap = new Map();
+
+      events.forEach(event => {
+        const key = getEventDateKey(event.datetime);
+        if (!eventMap.has(key)) {
+          eventMap.set(key, []);
+        }
+        eventMap.get(key).push(event);
+      });
+
+      const totalCells = Math.ceil((startWeekday + daysInMonth) / 7) * 7;
+
+      for (let i = 0; i < totalCells; i++) {
+        const cell = document.createElement("div");
+        cell.className = "calendar-cell";
+
+        let cellDate;
+
+        if (i < startWeekday) {
+          const day = prevMonthLastDay - startWeekday + i + 1;
+          cellDate = new Date(currentYear, currentMonth - 1, day);
+          cell.classList.add("other-month");
+        } else if (i >= startWeekday + daysInMonth) {
+          const day = i - (startWeekday + daysInMonth) + 1;
+          cellDate = new Date(currentYear, currentMonth + 1, day);
+          cell.classList.add("other-month");
+        } else {
+          const day = i - startWeekday + 1;
+          cellDate = new Date(currentYear, currentMonth, day);
+        }
+
+        if (isSameDate(cellDate, today)) {
+          cell.classList.add("today");
+        }
+
+        cell.title = `${getDateKey(cellDate)} 날짜에 일정 입력`;
+        cell.onclick = function () {
+          openEventEditorModalWithDate(cellDate);
+        };
+
+        const dateNumber = document.createElement("div");
+        dateNumber.className = "calendar-date-number";
+        dateNumber.textContent = cellDate.getDate();
+
+        const eventList = document.createElement("div");
+        eventList.className = "calendar-event-list";
+
+        const key = getDateKey(cellDate);
+        const dayEvents = eventMap.get(key) || [];
+
+        if (dayEvents.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "calendar-empty";
+          empty.textContent = " ";
+
+          const action = document.createElement("div");
+          action.className = "calendar-empty-action";
+          action.textContent = "일정 입력";
+
+          eventList.appendChild(empty);
+          eventList.appendChild(action);
+        } else {
+          dayEvents.slice(0, 3).forEach(eventData => {
+            const chip = document.createElement("div");
+            chip.className = "calendar-event-chip";
+            chip.title = "클릭해서 수정";
+            chip.innerHTML = `
+              <strong>${new Date(eventData.datetime).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}</strong><br>
+              ${eventData.title}
+            `;
+            chip.onclick = function (e) {
+              e.stopPropagation();
+              startEditFamilyEvent(eventData);
+            };
+            eventList.appendChild(chip);
+          });
+
+          if (dayEvents.length > 3) {
+            const more = document.createElement("div");
+            more.className = "calendar-empty";
+            more.textContent = `외 ${dayEvents.length - 3}건`;
+            eventList.appendChild(more);
+          }
+
+          const action = document.createElement("div");
+          action.className = "calendar-empty-action";
+          action.textContent = "날짜 클릭 시 새 일정 입력";
+          eventList.appendChild(action);
+        }
+
+        cell.appendChild(dateNumber);
+        cell.appendChild(eventList);
+        gridEl.appendChild(cell);
+      }
+    }
+
+    function updateFamilyNewsEditUI() {
+      const saveBtn = document.getElementById("familyNewsSaveBtn");
+      const cancelBtn = document.getElementById("familyNewsCancelBtn");
+
+      if (!saveBtn || !cancelBtn) return;
+
+      if (editingFamilyNewsId !== null) {
+        saveBtn.textContent = "소식 수정 완료";
+        cancelBtn.classList.add("show");
+      } else {
+        saveBtn.textContent = "소식 저장";
+        cancelBtn.classList.remove("show");
+      }
+    }
+
+    function resetFamilyNewsForm() {
+      document.getElementById("familyNewsTitle").value = "";
+      document.getElementById("familyNewsContent").value = "";
+      editingFamilyNewsId = null;
+      updateFamilyNewsEditUI();
+    }
+
+    function cancelFamilyNewsEdit() {
+      resetFamilyNewsForm();
+      document.getElementById("familyNewsTitle").focus();
+    }
+
+    function startEditFamilyNews(item) {
+      openFamilyNewsModal();
+
+      document.getElementById("familyNewsTitle").value = item.title || "";
+      document.getElementById("familyNewsContent").value = item.content || "";
+      editingFamilyNewsId = item.id;
+      updateFamilyNewsEditUI();
+
+      setTimeout(() => {
+        document.getElementById("familyNewsTitle").focus();
+      }, 100);
+    }
+
+    function renderFamilyNewsPreview() {
+      const container = document.getElementById("familyNewsPreview");
+      if (!container) return;
+
+      const news = getFamilyNews();
+      container.innerHTML = "";
+
+      if (news.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "news-mini-item";
+        empty.textContent = "아직 등록된 복어가족 소식이 없습니다.";
+        container.appendChild(empty);
+        return;
+      }
+
+      news.slice(0, 3).forEach(item => {
+        const div = document.createElement("div");
+        div.className = "news-mini-item";
+        div.onclick = function () {
+          startEditFamilyNews(item);
+        };
+        div.innerHTML = `
+          ${item.title}
+          <span class="news-mini-date">${item.date}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderFamilyNewsList() {
+      const container = document.getElementById("familyNewsList");
+      if (!container) return;
+
+      const news = getFamilyNews();
+      container.innerHTML = "";
+
+      if (news.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "family-news-item";
+        empty.textContent = "아직 저장된 소식이 없습니다.";
+        container.appendChild(empty);
+        return;
+      }
+
+      news.forEach(item => {
+        const box = document.createElement("div");
+        box.className = "family-news-item";
+        box.title = "클릭해서 수정";
+        box.onclick = function () {
+          startEditFamilyNews(item);
+        };
+
+        const header = document.createElement("div");
+        header.className = "family-news-item-header";
+
+        const left = document.createElement("div");
+
+        const title = document.createElement("div");
+        title.className = "family-news-title";
+        title.textContent = item.title;
+
+        const date = document.createElement("div");
+        date.className = "family-news-date";
+        date.textContent = item.date;
+
+        left.appendChild(title);
+        left.appendChild(date);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "small-btn delete";
+        deleteBtn.textContent = "삭제";
+        deleteBtn.onclick = function (e) {
+          e.stopPropagation();
+          deleteFamilyNews(item.id);
+        };
+
+        header.appendChild(left);
+        header.appendChild(deleteBtn);
+
+        const content = document.createElement("div");
+        content.className = "family-news-content";
+        content.textContent = item.content;
+
+        box.appendChild(header);
+        box.appendChild(content);
+
+        container.appendChild(box);
+      });
+    }
+
+    function openFamilyNewsModal() {
+      renderFamilyNewsList();
+      updateFamilyNewsEditUI();
+      document.getElementById("familyNewsModal").classList.add("show");
+      lockBodyScroll();
+    }
+
+    function closeFamilyNewsModal() {
+      document.getElementById("familyNewsModal").classList.remove("show");
+      resetFamilyNewsForm();
+      unlockBodyScrollIfNoModal();
+    }
+
+    function saveFamilyNews() {
+      const title = document.getElementById("familyNewsTitle").value.trim();
+      const content = document.getElementById("familyNewsContent").value.trim();
+
+      if (!title) {
+        alert("소식 제목을 입력해주세요.");
+        return;
+      }
+
+      if (!content) {
+        alert("소식 내용을 입력해주세요.");
+        return;
+      }
+
+      const news = getFamilyNews();
+
+      if (editingFamilyNewsId !== null) {
+        const target = news.find(item => item.id === editingFamilyNewsId);
+        if (target) {
+          target.title = title;
+          target.content = content;
+          target.date = new Date().toLocaleString("ko-KR");
+        }
+      } else {
+        news.unshift({
+          id: Date.now(),
+          title,
+          content,
+          date: new Date().toLocaleString("ko-KR")
+        });
+      }
+
+      saveFamilyNewsToStorage(news.slice(0, 50));
+      resetFamilyNewsForm();
+      renderFamilyNewsPreview();
+      renderFamilyNewsList();
+    }
+
+    function deleteFamilyNews(id) {
+      const news = getFamilyNews().filter(item => item.id !== id);
+      saveFamilyNewsToStorage(news);
+
+      if (editingFamilyNewsId === id) {
+        resetFamilyNewsForm();
+      }
+
+      renderFamilyNewsPreview();
+      renderFamilyNewsList();
+    }
+
+    function getUploadedPufferImages() {
+      return JSON.parse(localStorage.getItem("pufferGallery") || "[]");
+    }
+
+    function getAllRepresentativeCandidates() {
+      const uploaded = getUploadedPufferImages();
+      const merged = [...defaultGalleryImages, ...uploaded];
+      return [...new Set(merged)];
+    }
+
+    function setRepresentativeImage(src) {
+      familyMainImage.src = src;
+      bgPuffer.src = src;
+      localStorage.setItem("pufferMainImage", src);
+    }
+
+    function loadRepresentativeImage() {
+      const saved = localStorage.getItem("pufferMainImage");
+      const fallback = defaultGalleryImages[0];
+
+      if (saved) {
+        setRepresentativeImage(saved);
+      } else {
+        setRepresentativeImage(fallback);
+      }
+    }
+
+    function openGallery(src) {
+      const modal = document.getElementById("imageModal");
+      const main = document.getElementById("galleryMain");
+      const thumbs = document.getElementById("galleryThumbs");
+      const images = getAllRepresentativeCandidates();
+
+      selectedGalleryImage = src || familyMainImage.src || images[0] || defaultGalleryImages[0];
+      main.src = selectedGalleryImage;
+      thumbs.innerHTML = "";
+
+      images.forEach(img => {
+        const thumb = document.createElement("img");
+        thumb.src = img;
+        thumb.alt = "썸네일";
+
+        if (img === selectedGalleryImage) {
+          thumb.classList.add("active");
+        }
+
+        thumb.onclick = function () {
+          selectedGalleryImage = img;
+          main.src = img;
+
+          thumbs.querySelectorAll("img").forEach(t => t.classList.remove("active"));
+          thumb.classList.add("active");
+        };
+
+        thumbs.appendChild(thumb);
+      });
+
+      modal.classList.add("show");
+      lockBodyScroll();
+    }
+
+    function applySelectedRepresentative() {
+      if (!selectedGalleryImage) return;
+      setRepresentativeImage(selectedGalleryImage);
+      closeGallery();
+    }
+
+    function closeGallery() {
+      document.getElementById("imageModal").classList.remove("show");
+      unlockBodyScrollIfNoModal();
+    }
+
+    function openPufferGallery() {
+      let modal = document.getElementById("pufferGallery");
+
+      if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "pufferGallery";
+        modal.className = "modal-backdrop";
+
+        modal.innerHTML = `
+          <div class="modal-panel">
+            <button class="modal-close" onclick="closePufferGallery()">닫기</button>
+            <h2 style="margin-top:0;">복어 사진 갤러리</h2>
+            <p style="color:#7f8191;">사진을 업로드하고, 클릭해서 크게 볼 수 있어요. 업로드한 사진은 대표 사진으로도 사용할 수 있어요.</p>
+            <div class="puffer-upload-wrap">
+              <input type="file" id="pufferUpload" accept="image/*">
+            </div>
+            <div id="pufferImages" class="gallery-grid"></div>
+          </div>
+        `;
+
+        document.body.appendChild(modal);
+        document.getElementById("pufferUpload").addEventListener("change", savePufferImage);
+
+        modal.addEventListener("click", function (e) {
+          if (e.target === modal) {
+            closePufferGallery();
+          }
+        });
+      }
+
+      modal.classList.add("show");
+      lockBodyScroll();
+      loadPufferImages();
+    }
+
+    function closePufferGallery() {
+      const modal = document.getElementById("pufferGallery");
+      if (modal) modal.classList.remove("show");
+      unlockBodyScrollIfNoModal();
+    }
+
+    function savePufferImage(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = function (evt) {
+        const imgs = JSON.parse(localStorage.getItem("pufferGallery") || "[]");
+        imgs.unshift(evt.target.result);
+
+        try {
+          localStorage.setItem("pufferGallery", JSON.stringify(imgs.slice(0, 30)));
+          loadPufferImages();
+        } catch (err) {
+          alert("저장 공간이 부족합니다. 기존 사진 수를 줄이거나 작은 이미지를 사용해 주세요.");
+        }
+      };
+
+      reader.readAsDataURL(file);
+      e.target.value = "";
+    }
+
+    function deletePufferImage(index) {
+      const imgs = JSON.parse(localStorage.getItem("pufferGallery") || "[]");
+      const removed = imgs[index];
+      imgs.splice(index, 1);
+      localStorage.setItem("pufferGallery", JSON.stringify(imgs));
+
+      const currentRepresentative = localStorage.getItem("pufferMainImage");
+      if (currentRepresentative === removed) {
+        const candidates = getAllRepresentativeCandidates();
+        const replacement = candidates[0] || defaultGalleryImages[0];
+        setRepresentativeImage(replacement);
+      }
+
+      loadPufferImages();
+    }
+
+    function loadPufferImages() {
+      const container = document.getElementById("pufferImages");
+      if (!container) return;
+
+      const imgs = JSON.parse(localStorage.getItem("pufferGallery") || "[]");
+      container.innerHTML = "";
+
+      if (imgs.length === 0) {
+        const empty = document.createElement("div");
+        empty.textContent = "저장된 복어 사진이 없습니다. 사진을 업로드해 주세요.";
+        empty.style.color = "#666";
+        empty.style.padding = "8px 0";
+        container.appendChild(empty);
+        return;
+      }
+
+      imgs.forEach((src, index) => {
+        const wrap = document.createElement("div");
+        wrap.className = "gallery-thumb-wrap";
+
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = `복어 사진 ${index + 1}`;
+        img.onclick = function () {
+          openPufferViewer(index);
+        };
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "gallery-delete-btn";
+        deleteBtn.textContent = "✕";
+        deleteBtn.title = "삭제";
+        deleteBtn.onclick = function (e) {
+          e.stopPropagation();
+          deletePufferImage(index);
+        };
+
+        wrap.appendChild(img);
+        wrap.appendChild(deleteBtn);
+        container.appendChild(wrap);
+      });
+    }
+
+    function openPufferViewer(index) {
+      const imgs = JSON.parse(localStorage.getItem("pufferGallery") || "[]");
+      if (!imgs.length) return;
+
+      currentPufferIndex = index;
+      currentZoom = 1;
+
+      let viewer = document.getElementById("pufferViewer");
+
+      if (!viewer) {
+        viewer = document.createElement("div");
+        viewer.id = "pufferViewer";
+        viewer.className = "modal-backdrop";
+
+        viewer.innerHTML = `
+          <div class="viewer-shell">
+            <button class="viewer-close" onclick="closePufferViewer()">닫기 ✕</button>
+            <button class="viewer-nav viewer-prev" onclick="prevPufferImage()">◀</button>
+            <img id="viewerImage" class="viewer-image" alt="복어 확대 이미지">
+            <button class="viewer-nav viewer-next" onclick="nextPufferImage()">▶</button>
+
+            <div class="viewer-controls">
+              <button class="viewer-zoom" onclick="zoomOutPufferImage()">－</button>
+              <button class="viewer-zoom" onclick="resetZoomPufferImage()">원래 크기</button>
+              <button class="viewer-zoom" onclick="zoomInPufferImage()">＋</button>
+              <button class="viewer-zoom" onclick="setCurrentUploadedAsRepresentative()">대표 사진으로 적용</button>
+            </div>
+          </div>
+        `;
+
+        document.body.appendChild(viewer);
+
+        viewer.addEventListener("click", function (e) {
+          if (e.target === viewer) {
+            closePufferViewer();
+          }
+        });
+      }
+
+      updatePufferViewerImage();
+      viewer.classList.add("show");
+      lockBodyScroll();
+    }
+
+    function updatePufferViewerImage() {
+      const imgs = JSON.parse(localStorage.getItem("pufferGallery") || "[]");
+      const viewerImage = document.getElementById("viewerImage");
+      if (!imgs.length || !viewerImage) return;
+
+      if (currentPufferIndex < 0) currentPufferIndex = imgs.length - 1;
+      if (currentPufferIndex >= imgs.length) currentPufferIndex = 0;
+
+      viewerImage.src = imgs[currentPufferIndex];
+      viewerImage.style.transform = `scale(${currentZoom})`;
+    }
+
+    function prevPufferImage() {
+      const imgs = JSON.parse(localStorage.getItem("pufferGallery") || "[]");
+      if (!imgs.length) return;
+      currentPufferIndex = (currentPufferIndex - 1 + imgs.length) % imgs.length;
+      currentZoom = 1;
+      updatePufferViewerImage();
+    }
+
+    function nextPufferImage() {
+      const imgs = JSON.parse(localStorage.getItem("pufferGallery") || "[]");
+      if (!imgs.length) return;
+      currentPufferIndex = (currentPufferIndex + 1) % imgs.length;
+      currentZoom = 1;
+      updatePufferViewerImage();
+    }
+
+    function zoomInPufferImage() {
+      currentZoom = Math.min(currentZoom + 0.25, 3);
+      updatePufferViewerImage();
+    }
+
+    function zoomOutPufferImage() {
+      currentZoom = Math.max(currentZoom - 0.25, 0.5);
+      updatePufferViewerImage();
+    }
+
+    function resetZoomPufferImage() {
+      currentZoom = 1;
+      updatePufferViewerImage();
+    }
+
+    function setCurrentUploadedAsRepresentative() {
+      const imgs = JSON.parse(localStorage.getItem("pufferGallery") || "[]");
+      if (!imgs.length) return;
+      setRepresentativeImage(imgs[currentPufferIndex]);
+      closePufferViewer();
+      closePufferGallery();
+    }
+
+    function closePufferViewer() {
+      const viewer = document.getElementById("pufferViewer");
+      if (viewer) viewer.classList.remove("show");
+      unlockBodyScrollIfNoModal();
+    }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        closeGallery();
+        closeGreetingModal();
+        closeEventModal();
+        closeCalendarModal();
+        closeEventEditorModal();
+        closeFamilyNewsModal();
+        closePufferGallery();
+        closePufferViewer();
+      }
+
+      const viewer = document.getElementById("pufferViewer");
+      if (viewer && viewer.classList.contains("show")) {
+        if (e.key === "ArrowLeft") prevPufferImage();
+        if (e.key === "ArrowRight") nextPufferImage();
+        if (e.key === "+" || e.key === "=") zoomInPufferImage();
+        if (e.key === "-") zoomOutPufferImage();
+        if (e.key === "0") resetZoomPufferImage();
+      }
+    });
+
+    document.getElementById("imageModal").addEventListener("click", function (e) {
+      if (e.target === this) {
+        closeGallery();
+      }
+    });
+
+    document.getElementById("greetingModal").addEventListener("click", function (e) {
+      if (e.target === this) {
+        closeGreetingModal();
+      }
+    });
+
+    document.getElementById("eventModal").addEventListener("click", function (e) {
+      if (e.target === this) {
+        closeEventModal();
+      }
+    });
+
+    document.getElementById("calendarModal").addEventListener("click", function (e) {
+      if (e.target === this) {
+        closeCalendarModal();
+      }
+    });
+
+    document.getElementById("eventEditorModal").addEventListener("click", function (e) {
+      if (e.target === this) {
+        closeEventEditorModal();
+      }
+    });
+
+    document.getElementById("familyNewsModal").addEventListener("click", function (e) {
+      if (e.target === this) {
+        closeFamilyNewsModal();
+      }
+    });
+
+    window.addEventListener("load", function () {
+      renderHistory();
+      loadGreetings();
+      renderGreetingModalList();
+      loadRepresentativeImage();
+      renderFamilyEvents();
+      renderEventModalList();
+      renderCalendar();
+      renderFamilyNewsPreview();
+      updateFamilyNewsEditUI();
+      updateEventEditUI();
+      loadPreviewMode();
+
+      familyMainImage.onclick = function () {
+        openGallery(familyMainImage.src);
+      };
+
+      familyMainImage.onerror = function () {
+        setRepresentativeImage(defaultGalleryImages[0]);
+      };
+    });
+  </script>
+</body>
+</html>
