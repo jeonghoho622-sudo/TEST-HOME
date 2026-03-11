@@ -1,5 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import {
   getFirestore,
   collection,
   addDoc,
@@ -26,11 +33,18 @@ function isFirebaseConfigReady(config) {
 }
 
 let db = null;
+let auth = null;
+
 try {
   if (isFirebaseConfigReady(firebaseConfig)) {
     const app = initializeApp(firebaseConfig);
     db = getFirestore(app);
+    auth = getAuth(app);
   }
+} catch (e) {
+  db = null;
+  auth = null;
+}
 } catch (e) {
   db = null;
 }
@@ -1506,6 +1520,100 @@ function renderEventModalList() {
       }
     });
 
+    function setupAuthUI() {
+      const signupBtn = document.getElementById("signupBtn");
+      const loginBtn = document.getElementById("loginBtn");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const emailInput = document.getElementById("authEmail");
+      const passwordInput = document.getElementById("authPassword");
+      const authStateText = document.getElementById("authStateText");
+      const authUserText = document.getElementById("authUserText");
+      const authStatus = document.getElementById("authStatus");
+    
+      if (!signupBtn || !loginBtn || !logoutBtn || !emailInput || !passwordInput) {
+        return;
+      }
+    
+      function showStatus(message, isError = false) {
+        if (!authStatus) return;
+        authStatus.textContent = message;
+        authStatus.style.color = isError ? "crimson" : "green";
+      }
+    
+      signupBtn.addEventListener("click", async () => {
+        if (!auth) {
+          alert("Firebase 인증이 연결되지 않았어요.");
+          return;
+        }
+    
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+    
+        if (!email || !password) {
+          alert("이메일과 비밀번호를 입력해주세요.");
+          return;
+        }
+    
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          showStatus("회원가입 성공!");
+          alert("회원가입 성공: " + userCredential.user.email);
+        } catch (error) {
+          console.error("회원가입 오류:", error.code, error.message);
+          showStatus("회원가입 실패: " + error.code, true);
+          alert("회원가입 실패: " + error.code + " / " + error.message);
+        }
+      });
+    
+      loginBtn.addEventListener("click", async () => {
+        if (!auth) {
+          alert("Firebase 인증이 연결되지 않았어요.");
+          return;
+        }
+    
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+    
+        if (!email || !password) {
+          alert("이메일과 비밀번호를 입력해주세요.");
+          return;
+        }
+    
+        try {
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          showStatus("로그인 성공!");
+          alert("로그인 성공: " + userCredential.user.email);
+        } catch (error) {
+          console.error("로그인 오류:", error.code, error.message);
+          showStatus("로그인 실패: " + error.code, true);
+          alert("로그인 실패: " + error.code + " / " + error.message);
+        }
+      });
+    
+      logoutBtn.addEventListener("click", async () => {
+        if (!auth) return;
+    
+        try {
+          await signOut(auth);
+          showStatus("로그아웃 완료!");
+        } catch (error) {
+          console.error("로그아웃 오류:", error.code, error.message);
+          showStatus("로그아웃 실패: " + error.code, true);
+        }
+      });
+    
+      onAuthStateChanged(auth, (user) => {
+        if (authStateText) {
+          authStateText.textContent = user ? "현재 상태: 로그인됨" : "현재 상태: 로그아웃";
+        }
+    
+        if (authUserText) {
+          authUserText.textContent = user
+            ? `로그인 사용자: ${user.email}`
+            : "아직 로그인하지 않았어요.";
+        }
+      });
+    }
     window.addEventListener("load", async function () {
       renderHistory();
 
@@ -1522,7 +1630,8 @@ function renderEventModalList() {
       updateFamilyNewsEditUI();
       updateEventEditUI();
       loadPreviewMode();
-
+      setupAuthUI();
+      
       familyMainImage.onclick = function () {
         openGallery(familyMainImage.src);
       };
