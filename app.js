@@ -9,12 +9,14 @@ import {
 
 // 네 Firebase 설정값으로 유지
 const firebaseConfig = {
-  apiKey: "여기에_apiKey",
-  authDomain: "여기에_authDomain",
-  projectId: "여기에_projectId",
-  storageBucket: "여기에_storageBucket",
-  messagingSenderId: "여기에_messagingSenderId",
-  appId: "여기에_appId"
+  apiKey: "AIzaSyDaCMnOJmRZ7-6U8PCWeIR0zRaGWVKl16U",
+  authDomain: "puffy-home.firebaseapp.com",
+  databaseURL: "https://puffy-home-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "puffy-home",
+  storageBucket: "puffy-home.firebasestorage.app",
+  messagingSenderId: "169901178076",
+  appId: "1:169901178076:web:4a5d6b117a77e48d2f4819",
+  measurementId: "G-VC6LCTKCCM"
 };
 
 const app = initializeApp(firebaseConfig);
