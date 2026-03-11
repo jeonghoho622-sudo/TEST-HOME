@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firebase 회원가입 테스트</title>
+</head>
+<body>
+  <h2>회원가입 테스트</h2>
+
+  <input id="email" type="email" placeholder="이메일 입력" />
+  <br /><br />
+  <input id="password" type="password" placeholder="비밀번호 입력 (6자 이상)" />
+  <br /><br />
+
+  <button id="signupBtn">회원가입</button>
+  <button id="loginBtn">로그인</button>
+
+  <p id="result"></p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyDaCMnOJmRZ7-6U8PCWeIR0zRaGWVKl16U",
+  authDomain: "puffy-home.firebaseapp.com",
+  databaseURL: "https://puffy-home-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "puffy-home",
+  storageBucket: "puffy-home.firebasestorage.app",
+  messagingSenderId: "169901178076",
+  appId: "1:169901178076:web:4a5d6b117a77e48d2f4819",
+  measurementId: "G-VC6LCTKCCM"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const signupBtn = document.getElementById("signupBtn");
+    const loginBtn = document.getElementById("loginBtn");
+    const result = document.getElementById("result");
+
+    signupBtn.addEventListener("click", async () => {
+      result.textContent = "회원가입 시도 중...";
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email.value,
+          password.value
+        );
+        result.textContent = "회원가입 성공: " + userCredential.user.email;
+        alert("회원가입 성공!");
+      } catch (error) {
+        result.textContent = "회원가입 실패: " + error.code + " / " + error.message;
+        alert("회원가입 실패: " + error.code + " / " + error.message);
+        console.error(error);
+      }
+    });
+
+    loginBtn.addEventListener("click", async () => {
+      result.textContent = "로그인 시도 중...";
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email.value,
+          password.value
+        );
+        result.textContent = "로그인 성공: " + userCredential.user.email;
+        alert("로그인 성공!");
+      } catch (error) {
+        result.textContent = "로그인 실패: " + error.code + " / " + error.message;
+        alert("로그인 실패: " + error.code + " / " + error.message);
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
