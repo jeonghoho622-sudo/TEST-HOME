@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -29,6 +30,7 @@ const newsPage = document.getElementById("newsPage");
 const photoPage = document.getElementById("photoPage");
 
 // 입력/버튼 요소
+const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const signupBtn = document.getElementById("signupBtn");
@@ -56,23 +58,30 @@ function showMainPage(user) {
   hideAllPages();
   if (mainPage) mainPage.classList.remove("hidden");
   if (welcomeText && user) {
-    welcomeText.textContent = `${user.email}님, 복어 홈페이지에 오신 것을 환영합니다!`;
+    const name = user.displayName || "방문자";
+welcomeText.textContent = `${name}님, 복어 홈페이지에 오신 것을 환영합니다!`;
   }
 }
 
 // 회원가입
 if (signupBtn) {
   signupBtn.addEventListener("click", async () => {
+    const name = nameInput.value.trim();
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
     if (!email || !password) {
-      message.textContent = "이메일과 비밀번호를 입력해 주세요.";
+      message.textContent = "이름, 이메일, 비밀번호를 모두 입력해 주세요.";
       return;
     }
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+
+      // 이름 저장
+    await updateProfile(userCredential.user, {
+      displayName: name
+
       message.textContent = "회원가입이 완료되었습니다.";
     } catch (error) {
       message.textContent = `회원가입 실패: ${error.message}`;
