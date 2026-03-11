@@ -11,7 +11,7 @@ body {
 
 .wrap {
   max-width: 500px;
-  margin: 50px auto;
+  margin: 60px auto;
   padding: 20px;
 }
 
@@ -27,22 +27,22 @@ h1 {
 }
 
 .card {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
 h2 {
   margin-top: 0;
-  font-size: 20px;
+  margin-bottom: 16px;
+  text-align: center;
 }
 
 input {
   width: 100%;
   padding: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
@@ -51,12 +51,10 @@ input {
 .buttons {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
 }
 
 button {
   flex: 1;
-  min-width: 100px;
   padding: 12px;
   border: none;
   border-radius: 8px;
@@ -71,6 +69,8 @@ button:hover {
 }
 
 #logoutBtn {
+  width: 100%;
+  margin-top: 16px;
   background: #ff7b7b;
 }
 
@@ -79,12 +79,17 @@ button:hover {
 }
 
 #message {
-  margin-top: 15px;
-  font-size: 14px;
+  margin-top: 14px;
+  text-align: center;
   color: #444;
 }
 
-#userInfo {
-  font-weight: bold;
-  color: #0077aa;
+#welcomeText {
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.hidden {
+  display: none;
 }
