@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>복어 홈페이지</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>🐡 복어 홈페이지</h1>
+    <p class="desc">아주 간단한 Firebase 로그인 테스트 페이지</p>
+
+    <div class="card">
+      <h2>로그인 / 회원가입</h2>
+
+      <input type="email" id="email" placeholder="이메일" />
+      <input type="password" id="password" placeholder="비밀번호" />
+
+      <div class="buttons">
+        <button id="signupBtn">회원가입</button>
+        <button id="loginBtn">로그인</button>
+        <button id="logoutBtn">로그아웃</button>
+      </div>
+
+      <p id="message">로그인 상태를 확인해 주세요.</p>
+    </div>
+
+    <div class="card">
+      <h2>홈페이지 내용</h2>
+      <p>안녕하세요. 여기는 아주 간단한 복어 홈페이지입니다.</p>
+      <p>로그인하면 사용자 이메일이 아래에 표시됩니다.</p>
+      <p id="userInfo">현재 로그인한 사용자: 없음</p>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

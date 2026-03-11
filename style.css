@@ -1,0 +1,90 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4fbff;
+  color: #333;
+}
+
+.wrap {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.desc {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  flex: 1;
+  min-width: 100px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #4da6ff;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2f8fff;
+}
+
+#logoutBtn {
+  background: #ff7b7b;
+}
+
+#logoutBtn:hover {
+  background: #ff5f5f;
+}
+
+#message {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #444;
+}
+
+#userInfo {
+  font-weight: bold;
+  color: #0077aa;
+}
