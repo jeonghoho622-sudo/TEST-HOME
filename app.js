@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
   updateProfile
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
@@ -22,14 +22,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// 페이지 요소
 const authPage = document.getElementById("authPage");
 const mainPage = document.getElementById("mainPage");
 const schedulePage = document.getElementById("schedulePage");
 const newsPage = document.getElementById("newsPage");
 const photoPage = document.getElementById("photoPage");
 
-// 입력/버튼 요소
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
@@ -44,124 +42,106 @@ const newsBtn = document.getElementById("newsBtn");
 const photoBtn = document.getElementById("photoBtn");
 const backBtns = document.querySelectorAll(".backBtn");
 
-// 모든 페이지 숨기기
 function hideAllPages() {
-  if (authPage) authPage.classList.add("hidden");
-  if (mainPage) mainPage.classList.add("hidden");
-  if (schedulePage) schedulePage.classList.add("hidden");
-  if (newsPage) newsPage.classList.add("hidden");
-  if (photoPage) photoPage.classList.add("hidden");
+  authPage.classList.add("hidden");
+  mainPage.classList.add("hidden");
+  schedulePage.classList.add("hidden");
+  newsPage.classList.add("hidden");
+  photoPage.classList.add("hidden");
 }
 
-// 메인 화면 보기
 function showMainPage(user) {
   hideAllPages();
-  if (mainPage) mainPage.classList.remove("hidden");
-  if (welcomeText && user) {
-    const name = user.displayName || "방문자";
-welcomeText.textContent = `${name}님, 복어 홈페이지에 오신 것을 환영합니다!`;
-  }
+  mainPage.classList.remove("hidden");
+
+  const name = user.displayName || "방문자";
+  welcomeText.textContent = `${name}님, 복어 홈페이지에 오신 것을 환영합니다!`;
 }
 
-// 회원가입
-if (signupBtn) {
-  signupBtn.addEventListener("click", async () => {
-    const name = nameInput.value.trim();
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
+// 회원가입: 이름 필요
+signupBtn.addEventListener("click", async () => {
+  const name = nameInput.value.trim();
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
 
-    if (!email || !password) {
-      message.textContent = "이름, 이메일, 비밀번호를 모두 입력해 주세요.";
-      return;
-    }
+  if (!name || !email || !password) {
+    message.textContent = "이름, 이메일, 비밀번호를 모두 입력해 주세요.";
+    return;
+  }
 
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      // 이름 저장
     await updateProfile(userCredential.user, {
       displayName: name
+    });
 
-      message.textContent = "회원가입이 완료되었습니다.";
-    } catch (error) {
-      message.textContent = `회원가입 실패: ${error.message}`;
-      console.error("회원가입 오류:", error);
-    }
-  });
-}
+    message.textContent = "회원가입이 완료되었습니다.";
+  } catch (error) {
+    message.textContent = `회원가입 실패: ${error.message}`;
+    console.error("회원가입 오류:", error);
+  }
+});
 
-// 로그인
-if (loginBtn) {
-  loginBtn.addEventListener("click", async () => {
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
+// 로그인: 이름 필요 없음
+loginBtn.addEventListener("click", async () => {
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
 
-    if (!email || !password) {
-      message.textContent = "이메일과 비밀번호를 입력해 주세요.";
-      return;
-    }
+  if (!email || !password) {
+    message.textContent = "이메일과 비밀번호를 입력해 주세요.";
+    return;
+  }
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      message.textContent = "로그인 성공!";
-    } catch (error) {
-      message.textContent = `로그인 실패: ${error.message}`;
-      console.error("로그인 오류:", error);
-    }
-  });
-}
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    message.textContent = "로그인 성공!";
+  } catch (error) {
+    message.textContent = `로그인 실패: ${error.message}`;
+    console.error("로그인 오류:", error);
+  }
+});
 
-// 로그아웃
-if (logoutBtn) {
-  logoutBtn.addEventListener("click", async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      alert(`로그아웃 실패: ${error.message}`);
-      console.error("로그아웃 오류:", error);
-    }
-  });
-}
+logoutBtn.addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    alert(`로그아웃 실패: ${error.message}`);
+    console.error("로그아웃 오류:", error);
+  }
+});
 
-// 메뉴 이동
-if (scheduleBtn) {
-  scheduleBtn.addEventListener("click", () => {
-    hideAllPages();
-    if (schedulePage) schedulePage.classList.remove("hidden");
-  });
-}
+scheduleBtn.addEventListener("click", () => {
+  hideAllPages();
+  schedulePage.classList.remove("hidden");
+});
 
-if (newsBtn) {
-  newsBtn.addEventListener("click", () => {
-    hideAllPages();
-    if (newsPage) newsPage.classList.remove("hidden");
-  });
-}
+newsBtn.addEventListener("click", () => {
+  hideAllPages();
+  newsPage.classList.remove("hidden");
+});
 
-if (photoBtn) {
-  photoBtn.addEventListener("click", () => {
-    hideAllPages();
-    if (photoPage) photoPage.classList.remove("hidden");
-  });
-}
+photoBtn.addEventListener("click", () => {
+  hideAllPages();
+  photoPage.classList.remove("hidden");
+});
 
-// 돌아가기 버튼
 backBtns.forEach((button) => {
   button.addEventListener("click", () => {
     const user = auth.currentUser;
-    showMainPage(user);
+    if (user) showMainPage(user);
   });
 });
 
-// 로그인 상태 확인
 onAuthStateChanged(auth, (user) => {
   if (user) {
     showMainPage(user);
   } else {
     hideAllPages();
-    if (authPage) authPage.classList.remove("hidden");
-    if (emailInput) emailInput.value = "";
-    if (passwordInput) passwordInput.value = "";
-    if (message) message.textContent = "이메일과 비밀번호를 입력해 주세요.";
+    authPage.classList.remove("hidden");
+    nameInput.value = "";
+    emailInput.value = "";
+    passwordInput.value = "";
+    message.textContent = "이메일과 비밀번호를 입력해 주세요.";
   }
 });
