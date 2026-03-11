@@ -7,7 +7,6 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-// 네 Firebase 설정값으로 유지
 const firebaseConfig = {
   apiKey: "AIzaSyDaCMnOJmRZ7-6U8PCWeIR0zRaGWVKl16U",
   authDomain: "puffy-home.firebaseapp.com",
@@ -22,9 +21,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// 요소 가져오기
-const authBox = document.getElementById("authBox");
-const welcomeBox = document.getElementById("welcomeBox");
+// 페이지 요소
+const authPage = document.getElementById("authPage");
+const mainPage = document.getElementById("mainPage");
+const schedulePage = document.getElementById("schedulePage");
+const newsPage = document.getElementById("newsPage");
+const photoPage = document.getElementById("photoPage");
+
+// 입력/버튼 요소
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const signupBtn = document.getElementById("signupBtn");
@@ -33,63 +37,122 @@ const logoutBtn = document.getElementById("logoutBtn");
 const message = document.getElementById("message");
 const welcomeText = document.getElementById("welcomeText");
 
+const scheduleBtn = document.getElementById("scheduleBtn");
+const newsBtn = document.getElementById("newsBtn");
+const photoBtn = document.getElementById("photoBtn");
+const backBtns = document.querySelectorAll(".backBtn");
+
+// 모든 페이지 숨기기
+function hideAllPages() {
+  if (authPage) authPage.classList.add("hidden");
+  if (mainPage) mainPage.classList.add("hidden");
+  if (schedulePage) schedulePage.classList.add("hidden");
+  if (newsPage) newsPage.classList.add("hidden");
+  if (photoPage) photoPage.classList.add("hidden");
+}
+
+// 메인 화면 보기
+function showMainPage(user) {
+  hideAllPages();
+  if (mainPage) mainPage.classList.remove("hidden");
+  if (welcomeText && user) {
+    welcomeText.textContent = `${user.email}님, 복어 홈페이지에 오신 것을 환영합니다!`;
+  }
+}
+
 // 회원가입
-signupBtn.addEventListener("click", async () => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
+if (signupBtn) {
+  signupBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
 
-  if (!email || !password) {
-    message.textContent = "이메일과 비밀번호를 입력해 주세요.";
-    return;
-  }
+    if (!email || !password) {
+      message.textContent = "이메일과 비밀번호를 입력해 주세요.";
+      return;
+    }
 
-  try {
-    await createUserWithEmailAndPassword(auth, email, password);
-    message.textContent = "회원가입이 완료되었습니다.";
-  } catch (error) {
-    message.textContent = `회원가입 실패: ${error.message}`;
-  }
-});
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      message.textContent = "회원가입이 완료되었습니다.";
+    } catch (error) {
+      message.textContent = `회원가입 실패: ${error.message}`;
+      console.error("회원가입 오류:", error);
+    }
+  });
+}
 
 // 로그인
-loginBtn.addEventListener("click", async () => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
+if (loginBtn) {
+  loginBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
 
-  if (!email || !password) {
-    message.textContent = "이메일과 비밀번호를 입력해 주세요.";
-    return;
-  }
+    if (!email || !password) {
+      message.textContent = "이메일과 비밀번호를 입력해 주세요.";
+      return;
+    }
 
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    message.textContent = "로그인 성공!";
-  } catch (error) {
-    message.textContent = `로그인 실패: ${error.message}`;
-  }
-});
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      message.textContent = "로그인 성공!";
+    } catch (error) {
+      message.textContent = `로그인 실패: ${error.message}`;
+      console.error("로그인 오류:", error);
+    }
+  });
+}
 
 // 로그아웃
-logoutBtn.addEventListener("click", async () => {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    alert(`로그아웃 실패: ${error.message}`);
-  }
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      alert(`로그아웃 실패: ${error.message}`);
+      console.error("로그아웃 오류:", error);
+    }
+  });
+}
+
+// 메뉴 이동
+if (scheduleBtn) {
+  scheduleBtn.addEventListener("click", () => {
+    hideAllPages();
+    if (schedulePage) schedulePage.classList.remove("hidden");
+  });
+}
+
+if (newsBtn) {
+  newsBtn.addEventListener("click", () => {
+    hideAllPages();
+    if (newsPage) newsPage.classList.remove("hidden");
+  });
+}
+
+if (photoBtn) {
+  photoBtn.addEventListener("click", () => {
+    hideAllPages();
+    if (photoPage) photoPage.classList.remove("hidden");
+  });
+}
+
+// 돌아가기 버튼
+backBtns.forEach((button) => {
+  button.addEventListener("click", () => {
+    const user = auth.currentUser;
+    showMainPage(user);
+  });
 });
 
 // 로그인 상태 확인
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    authBox.classList.add("hidden");
-    welcomeBox.classList.remove("hidden");
-    welcomeText.textContent = `${user.email}님, 복어 홈페이지에 오신 것을 환영합니다!`;
+    showMainPage(user);
   } else {
-    authBox.classList.remove("hidden");
-    welcomeBox.classList.add("hidden");
-    welcomeText.textContent = "환영 메시지가 여기에 표시됩니다.";
-    emailInput.value = "";
-    passwordInput.value = "";
-    message.textContent = "이메일과 비밀번호를 입력해 주세요.";
+    hideAllPages();
+    if (authPage) authPage.classList.remove("hidden");
+    if (emailInput) emailInput.value = "";
+    if (passwordInput) passwordInput.value = "";
+    if (message) message.textContent = "이메일과 비밀번호를 입력해 주세요.";
   }
 });
